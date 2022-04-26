@@ -1,0 +1,48 @@
+div {
+    outline:solid red 3px;
+    border-radius: 5px;
+}
+
+section {
+    border-radius: 5px;
+}
+
+#catalog {
+    padding:12px;
+}
+
+#catalogstuff {
+    display:flex;
+    padding:20px;
+    justify-content:space-evenly;
+    outline:solid blue 2px;
+}
+
+#menu {
+    width: 10%;
+    outline:solid green 1px;
+}
+
+#menu > button {
+    margin:10px;
+    width: 80%;
+}
+
+#home {
+    margin-top:10px;
+}
+
+
+#forum {
+    width:70%;
+    outline:solid green 1px;
+    padding:10px;
+}
+
+#forum_content {
+    border: solid violet 1px;
+}
+
+table,th,td {
+    border: solid navy 1px;
+}
