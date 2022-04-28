@@ -1,10 +1,53 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+
+    {% block page_title  %}
+        <title>--{{page_title}}</title>
+    {% endblock page_title  %}
+    <link rel ="stylesheet" href="styles/style.css">
+    <link rel="stylesheet"
+          href="{% static 'styles/mainLayout2.css' %}">
+<!--    <script src="js/form.js"></script>-->
 </head>
 <body>
+        {% block header %}
+        <header>
+            <section id="left_header">
+                <h1>
+                    ITEM CATALOG
+                </h1>
+            </section>
+            <section id="right_header">
+                <section id="items_header" class="right_header_node">
+                    <a>Items</a>
+                </section>
+                <section id="users_header" class="right_header_node">
+                    <a>Users List</a>
+                </section>
+                <section id="messages_header" class="right_header_node">
+                    <a>Messages</a>
+                </section>
+                <section id="profile_header" class="right_header_node">
+                    <a>Profile</a>
+                </section>
+                <section id="logout_header" class="right_header_node">
+                    <a>Logout</a>
+                </section>
+            </section>
+        </header>
+        {% endblock header %}
 
+        <section id="main_section">
+        </section>
+
+        <footer>
+            <p>
+                My first Name, last name, ID
+                <br> (c) winter - 2022
+            </p>
+        </footer>
 </body>
 </html>

@@ -1,48 +1,37 @@
-div {
-    outline:solid red 3px;
-    border-radius: 5px;
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #404040;
+    color: #d9d9d9;
+    font-family: monospace;
 }
 
-section {
-    border-radius: 5px;
+header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    background-color: #262626;
 }
 
-#catalog {
-    padding:12px;
-}
-
-#catalogstuff {
-    display:flex;
-    padding:20px;
-    justify-content:space-evenly;
-    outline:solid blue 2px;
-}
-
-#menu {
-    width: 10%;
-    outline:solid green 1px;
-}
-
-#menu > button {
-    margin:10px;
-    width: 80%;
-}
-
-#home {
-    margin-top:10px;
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    background-color: #262626;
 }
 
 
-#forum {
-    width:70%;
-    outline:solid green 1px;
-    padding:10px;
+
+#left_header {
+    margin: 10px 10px 10px 40px;
 }
 
-#forum_content {
-    border: solid violet 1px;
+#right_header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 
-table,th,td {
-    border: solid navy 1px;
+.right_header_node {
+    margin: 27px 40px 40px 40px;
 }
