@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'item_catalog.apps.ItemCatalogConfig',
     'administration.apps.AdministrationConfig',
     'messaging.apps.MessagingConfig',
-    'item_catalog.apps.ItemCatalogConfig',
     'user_management.apps.UserManagementConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,11 +76,15 @@ WSGI_APPLICATION = 'proj2.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+user = 'project_420_db_admin'
+password='Pythin_420'
+host='localhost'
+port = 5432
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dw_42022_prj_grp1_makhoul',
+        'NAME': 'project_420_db',
         'USER': user,
         'PASSWORD': password,
         'HOST': host,
