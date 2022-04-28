@@ -81,6 +81,11 @@ password='Pythin_420'
 host='localhost'
 port = 5432
 
+user = 'project_420_db_admin'
+password = 'Python_420'
+host = 'localhost'
+port = 5432
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
