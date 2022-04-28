@@ -31,9 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'item_catalog.apps.ItemCatalogConfig',
     'administration.apps.AdministrationConfig',
     'messaging.apps.MessagingConfig',
-    'item_catalog.apps.ItemCatalogConfig',
     'user_management.apps.UserManagementConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -76,11 +76,11 @@ WSGI_APPLICATION = 'proj2.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-user = 'project_420_db_admin'
-password = 'Python_420'
-host = 'localhost'
+user = 'proj'
+password='password'
+host='localhost'
 port = 5432
+
 
 DATABASES = {
     'default': {
