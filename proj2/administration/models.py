@@ -7,7 +7,20 @@ from django.db import models
 from django.db.models import CASCADE
 
 # user/group models
-from proj2.item_catalog.models import Item
+class Item(models.Model):
+    title = models.CharField(max_length=30)
+    genre = models.CharField(max_length=30)
+    description = models.CharField(max_length=300)
+    price = models.DecimalField(max_digits=7, decimal_places=2)
+    address = models.CharField(max_length=50)
+    status = models.CharField(max_length=10)
+    rate = models.DecimalField(max_digits=3, decimal_places=0)
+    image = models.ImageField(upload_to='user_pics',
+                                     default='default_image.png')
+
+    def __str__(self):
+        return f"{self.title[:15]}"
+
 
 
 class Member(models.Model):
@@ -51,15 +64,15 @@ class Item_Flag(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 
-class User_Flag(models.Model):
-    flagger = models.ForeignKey(Member, on_delete=models.CASCADE)
-    flagged = models.ForeignKey(Member, on_delete=models.CASCADE)
-
-
-# message models
-
-class Message(models.Model):
-    sender = models.ForeignKey(Member, on_delete=models.CASCADE)
-    sent = models.ForeignKey(Member, on_delete=models.CASCADE)
-    content = models.CharField(max_length=200)
-    is_seen = models.BooleanField()
+# class User_Flag(models.Model):
+#     flagger = models.ForeignKey(Member, on_delete=models.CASCADE)
+#     flagged = models.ForeignKey(Member, on_delete=models.CASCADE)
+#
+#
+# # message models
+#
+# class Message(models.Model):
+#     sender = models.ForeignKey(Member, on_delete=models.CASCADE)
+#     sent = models.ForeignKey(Member, on_delete=models.CASCADE)
+#     content = models.CharField(max_length=200)
+#     is_seen = models.BooleanField()

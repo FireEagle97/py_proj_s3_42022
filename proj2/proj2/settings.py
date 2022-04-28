@@ -76,20 +76,16 @@ WSGI_APPLICATION = 'proj2.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-user = 'project_420_db_admin'
-password='Pythin_420'
+user = 'proj'
+password='password'
 host='localhost'
 port = 5432
 
-user = 'project_420_db_admin'
-password = 'Python_420'
-host = 'localhost'
-port = 5432
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'project_420_db',
+        'NAME': 'dw_42022_prj_grp1_makhoul',
         'USER': user,
         'PASSWORD': password,
         'HOST': host,
