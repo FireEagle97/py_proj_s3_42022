@@ -1,10 +1,109 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+
+    {% block page_title  %}
+        <title>--{{page_title}}</title>
+    {% endblock page_title  %}
+
+    <link rel="stylesheet"
+          href="{% static 'styles/mainLayout2.css' %}">
+<!--    <script src="js/form.js"></script>-->
 </head>
 <body>
+    <section id="main-wrapper">
+        {% block header %}
+        <header>
+            {% block app_logo %}
+<!--            <img src="{% static 'images/weblog_icon.PNG' %}" height="100%"/>-->
+            {% endblock app_logo %}
+            <h2> *** {{greet}} ** </h2>
 
+            <section id="header-right">
+                <section id="menu1">
+                    {% if user.is_authenticated %}
+                    <section> welcome {{ user.username }}</section>
+                    <section><a href="{% url 'member_logout' %}">Logout</a></section>
+                    {% else %}
+                    <section>you are not logged in, please </section>
+                    <section id="log_reg">
+                        <section><a href="{% url 'member_login' %}">Login</a></section>
+                        <section><a href="{% url 'member_register' %}">Register</a></section>
+                    </section>
+                    {% endif %}
+                </section>
+                <section id="search"> <input type= 'search' placeholder="search ..."/> </section>
+            </section>
+        </header>
+        {% endblock header %}
+        <section id="middle">
+            {% block nav_blck %}
+            <nav>
+                <ul id="menu2">
+                    <li><a href="{% url 'weblog_home' %}">Home</a></li>
+                    <li>    <a href="{% url 'weblog_list_all' %}"> List All Items</a></li>
+                    <li>    <a href="{% url 'weblog_contact' %}">Contact</a></li>
+                    <li>    <a href="{% url 'weblog_contact' %}">A Bout</a></li>
+                    <li>    <a href="{% url 'polls_home' %}">POLLS app</a></li>
+
+
+                </ul>
+            </nav>
+            {% endblock nav_blck %}
+            <section id="content">
+            <section id="messages">
+                {% for msg in messages %}
+                    <section id = {{ msg.tags }}>
+                        {{ msg }}
+                    </section>
+                {% endfor%}
+
+            </section>
+                <section id="filter">
+                        <section>
+                            <label> filter by </label>
+                            <select>
+                                <option value="year"> Year</option>
+                                <option value="owner"> Author</option>
+                            </select>
+                        </section>
+                        <section>
+                            <label> sort by </label>
+                            <select>
+                                <option value="year"> Year</option>
+                                <option value="owner"> Author</option>
+                            </select>
+                        </section>
+                </section>
+                {% block content %}
+                {% endblock content %}
+            </section>
+            <section id="end-side-bar" >
+                <h3> some stats about top {{ stat_data| length }} </h3>
+                <table>
+                    <tr>
+                        <th> author </th> <th> nber Posts</th><th> Col3</th>
+                    </tr>
+                    {% for r in stat_data %}
+                    <tr>
+                        <td> {{ r.name }}</td><td> {{ r.count_posts }}</td><td>data 1</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+            </section>
+
+        </section>
+
+        <footer>
+            <h2>This is page footer</h2>
+            <p>
+                My first Name, last name, ID
+                <br> (c) winter - 2022
+            </p>
+        </footer>
+    </section>
 </body>
 </html>
