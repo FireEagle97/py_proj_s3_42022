@@ -77,6 +77,11 @@ WSGI_APPLICATION = 'proj2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+user = 'project_420_db_admin'
+password = 'Python_420'
+host = 'localhost'
+port = 5432
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
