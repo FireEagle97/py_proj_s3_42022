@@ -32,6 +32,10 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'item_catalog.apps.ItemCatalogConfig',
+    'administration.apps.AdministrationConfig',
+    'messaging.apps.MessagingConfig',
+    'item_catalog.apps.ItemCatalogConfig',
+    'user_management.apps.UserManagementConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,8 +80,12 @@ WSGI_APPLICATION = 'proj2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dw_42022_prj_grp1_makhoul',
+        'USER': user,
+        'PASSWORD': password,
+        'HOST': host,
+        'PORT': port,
     }
 }
 
