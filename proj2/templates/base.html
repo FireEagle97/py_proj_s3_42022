@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
 
     {% block page_title  %}
-        <title>--{{page_title}}</title>
+        <title>{{page_title}}</title>
     {% endblock page_title  %}
-    <link rel ="stylesheet" href="styles/style.css">
-    <link rel="stylesheet"
-          href="{% static 'styles/mainLayout2.css' %}">
+    <link rel ="stylesheet" href="{% static 'styles/layoutStyle.css' %}">
+
 <!--    <script src="js/form.js"></script>-->
 </head>
 <body>
@@ -39,16 +38,14 @@
             </section>
         </header>
         {% endblock header %}
+        {% block content %}
+        {% endblock content %}
 
-        <section id="main_section">
-        </section>
-        
         <footer>
             <p>
                 My first Name, last name, ID
                 <br> (c) winter - 2022
             </p>
         </footer>
-    </section>
 </body>
 </html>

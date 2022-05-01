@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'item_catalog.apps.ItemCatalogConfig',
+    'itemCatalog.apps.ItemCatalogConfig',
     'administration.apps.AdministrationConfig',
     'messaging.apps.MessagingConfig',
     'user_management.apps.UserManagementConfig',
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'proj2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

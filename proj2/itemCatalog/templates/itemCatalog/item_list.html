@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+    {% block content %}
+        <section class="info">
+            <h4>Django web development demo</h4>
+                <table>
+                    <tr>
+                        <th>title</th>
+                        <th>price</th>
+                    </tr>
+                    {% for obj in object_list %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'itemCatalog_item_detail' obj.id %}">
+                            {{obj.title}}
+                            </a>
+
+                        </td>
+                        <td>{{obj.price}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+        </section>
+    {% endblock content %}

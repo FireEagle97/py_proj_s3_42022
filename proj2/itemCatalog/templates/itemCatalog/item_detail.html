@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+    {% block content %}
+        <section class="info">
+                <h4>Django web development demo</h4>
+            <h4>Item details</h4>
+                <section>{{object.title}}</section>
+                <section>{{object.genre}}</section>
+                <section>{{object.description}}</section>
+                <section>{{object.price}}</section>
+                <section>{{object.address}}</section>
+                <section>{{object.status}}</section>
+                <section>{{object.rate}}</section>
+                <section>{{object.image}}</section>
+        </section>
+    {% endblock content %}
