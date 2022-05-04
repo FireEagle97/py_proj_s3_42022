@@ -13,7 +13,7 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
     address = models.CharField(max_length=50)
     status = models.CharField(max_length=10)
-    rate = models.DecimalField(max_digits=3, decimal_places=0)
+    rate = models.DecimalField(max_digits=3, decimal_places=0, null=True)
     image = models.ImageField(upload_to='user_pics',
                               default='default_image.png')
 
