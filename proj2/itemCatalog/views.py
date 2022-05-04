@@ -54,7 +54,7 @@ def add_item(req):
         form = ItemForm(req.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/add_item?submitted=True')
+            return redirect("item_list")
     else:
         form = ItemForm
         if 'submitted' in req.GET:
@@ -71,3 +71,9 @@ def update_item(req, item_id):
         return redirect('items_list')
     return render(req, 'itemCatalog/update_item.html', {'item': item,
                                                         'form': form})
+
+
+def delete_item(req, item_id):
+    item = Item.objects.get(pk=item_id)
+    item.delete()
+    return redirect('items_list')
