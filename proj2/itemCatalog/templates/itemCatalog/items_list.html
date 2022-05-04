@@ -16,6 +16,10 @@
 
                         </td>
                         <td>{{obj.price}}</td>
+                        <td align="right">
+                            <a href="{% url 'update_item' obj.item_id %}"> Update </a>
+                        </td>
+
                     </tr>
                     {% endfor %}
                 </table>

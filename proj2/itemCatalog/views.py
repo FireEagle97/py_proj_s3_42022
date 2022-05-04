@@ -1,5 +1,5 @@
 # Create your views here.
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView
 from .models import Item
@@ -58,6 +58,16 @@ def add_item(req):
     else:
         form = ItemForm
         if 'submitted' in req.GET:
-            submitted=True
+            submitted = True
     form = ItemForm
-    return render(req, 'itemCatalog/add_item.html', {'form':form, 'submitted':submitted})
+    return render(req, 'itemCatalog/add_item.html', {'form': form, 'submitted': submitted})
+
+
+def update_item(req, item_id):
+    item = Item.objects.get(pk=item_id)
+    form = ItemForm(req.POST or None, instance=item)
+    if form.is_valid():
+        form.save()
+        return redirect('items_list')
+    return render(req, 'itemCatalog/update_item.html', {'item': item,
+                                                        'form': form})

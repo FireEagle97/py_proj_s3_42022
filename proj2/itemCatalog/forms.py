@@ -24,7 +24,7 @@ class ItemForm(ModelForm):
             'description': forms.TextInput(attrs={'class':'form-control','placeholder':'description'}),
             'price': forms.NumberInput(attrs={'class':'form-control','placeholder':'price'}),
             'address': forms.TextInput(attrs={'class':'form-control','placeholder':'address'}),
-            'status': forms.NumberInput(attrs={'class':'form-control','placeholder':'status'}),
+            'status': forms.TextInput(attrs={'class':'form-control','placeholder':'status'}),
             'image': forms.FileInput(attrs={'class':'form-control','placeholder':'image'}),
 
         }
