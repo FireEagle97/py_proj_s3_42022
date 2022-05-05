@@ -6,6 +6,9 @@ from django.db import models
 
 
 # Create your models here.
+
+
+
 class Item(models.Model):
     # owner = models.ForeignKey(User, on_delete=models.CASCADE)
     item_id = models.AutoField(primary_key=True)
