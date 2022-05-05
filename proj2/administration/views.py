@@ -1,6 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views import View
+from django.views.generic import ListView, DetailView
+from .models import Member, Team, Member_Team
 
 # Create your views here.
+def home(req):
+    template_name = 'administration/home.html'
+    return render(req, template_name)
+
+
 class MyListMemberView(View):
     template_name = 'administration/user_list.html'
 
