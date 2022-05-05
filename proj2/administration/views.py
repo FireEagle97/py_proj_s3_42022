@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView
-from .models import Member, Team, Member_Team
+from .models import Member
 
 # Create your views here.
 def home(req):
@@ -29,7 +29,7 @@ class MyEditMemberDetailView(View):
         return render(request, self.template_name, {'member': member})
 
 class MyModifyTeamView(View):
-    model = Member_Team
+    model = Member
     template_name = 'administration/user_group.html'
 
     def get(self, request, *args, **kwargs):
