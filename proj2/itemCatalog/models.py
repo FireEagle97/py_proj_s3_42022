@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -5,7 +6,11 @@ from django.db import models
 
 
 # Create your models here.
+
+
+
 class Item(models.Model):
+    # owner = models.ForeignKey(User, on_delete=models.CASCADE)
     item_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50)
     genre = models.CharField(max_length=50)
@@ -13,9 +18,9 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
     address = models.CharField(max_length=50)
     status = models.CharField(max_length=10)
-    rate = models.DecimalField(max_digits=3, decimal_places=0)
+    rate = models.DecimalField(max_digits=3, decimal_places=0, null=True)
     image = models.ImageField(upload_to='user_pics',
-                              default='default_image.png')
+                              default='default_image.jpg')
 
     def __str__(self):
         return f"{self.title[:15]}"
