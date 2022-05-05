@@ -2,28 +2,19 @@
     {% block content %}
         <section class="info">
                 <a href="{% url 'add_item' %}"> add an item</a>
-                <table>
-                    <tr>
-                        <th>title</th>
-                        <th>price</th>
-                    </tr>
-                    {% for obj in object_list %}
-                    <tr>
-                        <td>
-                            <a href="{% url 'itemCatalog_item_detail' obj.item_id %}">
-                            {{obj.title}}
+            {% for obj in object_list %}
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="..." alt="Card image cap">
+                  <div class="card-body">
+                      <a href="{% url 'itemCatalog_item_detail' obj.id %}">
+                          <h5 class="card-title">{{obj.title}}</h5>
                             </a>
 
-                        </td>
-                        <td>{{obj.price}}</td>
-                        <td align="right">
-                            <a href="{% url 'update_item' obj.item_id %}" class="btn btn-outline-secondary"> Update </a>
-                        <td align="right">
-                            <a href="{% url 'delete_item' obj.item_id %}" class="btn btn-outline-danger"> Delete </a>
-                        </td>
-
-                    </tr>
-                    {% endfor %}
-                </table>
+                    <p class="card-price">{{obj.price}}</p>
+                      <p class="card-text">{{obj.description}}</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+            </div>
+            {% endfor %}
         </section>
     {% endblock content %}

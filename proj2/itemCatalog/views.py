@@ -20,7 +20,7 @@ def item_list(req):
 
 
 class MyListItemsView(View):
-    template_name = 'itemCatalog/items_list.html'
+    template_name = 'itemCatalog/home.html'
 
     def get(self, req, *args, **kwargs):
         res = Item.objects.all()

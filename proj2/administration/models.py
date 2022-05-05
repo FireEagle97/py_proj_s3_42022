@@ -9,7 +9,8 @@ from django.db import models
 
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField()
+    avatar = models.ImageField(upload_to='user_pics',
+                               default='user_default_image.jpg')
 
 
 class Team(models.Model):

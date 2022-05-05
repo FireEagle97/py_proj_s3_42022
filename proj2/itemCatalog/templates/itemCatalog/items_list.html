@@ -11,16 +11,16 @@
                     {% for obj in object_list %}
                     <tr>
                         <td>
-                            <a href="{% url 'itemCatalog_item_detail' obj.item_id %}">
+                            <a href="{% url 'itemCatalog_item_detail' obj.id %}">
                             {{obj.title}}
                             </a>
 
                         </td>
                         <td>{{obj.price}}</td>
                         <td align="right">
-                            <a href="{% url 'update_item' obj.item_id %}" class="btn btn-outline-secondary"> Update </a>
+                            <a href="{% url 'update_item' obj.id %}" class="btn btn-outline-secondary"> Update </a>
                         <td align="right">
-                            <a href="{% url 'delete_item' obj.item_id %}" class="btn btn-outline-danger"> Delete </a>
+                            <a href="{% url 'delete_item' obj.id %}" class="btn btn-outline-danger"> Delete </a>
                         </td>
 
                     </tr>
