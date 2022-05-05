@@ -1,117 +1,29 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{page_title}}</title>
+{% extends 'base.html' %}
+    {% block content %}
+        <section class="info">
+                <a href="{% url 'add_item' %}"> add an item</a>
+                <table>
+                    <tr>
+                        <th>title</th>
+                        <th>price</th>
+                    </tr>
+                    {% for obj in object_list %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'itemCatalog_item_detail' obj.item_id %}">
+                            {{obj.title}}
+                            </a>
 
-    <link rel="stylesheet" href="{% static 'styles/mainLayout2.css' %}">
-<!--    <script src="js/form.js"></script>-->
-</head>
-<body>
-    <section id="main-wrapper">
-        <header>
-            <h2> {{greet}} </h2>
-            <section>
-                <ul id="menu1">
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="register.html">Register</a></li>
-                    <li><a href="logout.html">Logout</a></li>
-                </ul>
-                <section> <input type= 'search' placeholder="search ..."/> </section>
-            </section>
+                        </td>
+                        <td>{{obj.price}}</td>
+                        <td align="right">
+                            <a href="{% url 'update_item' obj.item_id %}" class="btn btn-outline-secondary"> Update </a>
+                        <td align="right">
+                            <a href="{% url 'delete_item' obj.item_id %}" class="btn btn-outline-danger"> Delete </a>
+                        </td>
 
-        </header>
-        <section id="middle">
-            <nav>
-                <ul id="menu2">
-                    <li><a href="home">Home</a></li>
-                    <li>    <a href="list-all"> List All Movies</a></li>
-                    <li>    <a href="contact">Contact</a></li>
-                    <li>    <a href="about">ABout</a></li>
-                </ul>
-            </nav>
-            <section id="content">
-                <section id="filter">
-                        <section>
-                        <label> filter by </label>
-                        <select>
-                            <option value="year"> Year</option>
-                            <option value="owner"> Author</option>
-                        </select>
-                    </section>
-                    <section>
-                        <label> sort by </label>
-                        <select>
-                            <option value="year"> Year</option>
-                            <option value="owner"> Author</option>
-                        </select>
-                    </section>
-                    <section>
-                        <button>Add a Movie</button>
-                    </section>
-                </section>
-
-
-                <section class="info">
-                        <h4>Django web development demo</h4>
-                        <table>
-                            <tr>
-                                <th>topic</th>
-                                <th>week</th>
-                                <th>status</th>
-                            </tr>
-                            <tr>
-                                <td>django setup</td><td>week8,9,10)</td><td>done over and over again</td>
-                            </tr>
-                            <tr>
-                                <td>django Model </td>
-                                <td> wekk9, 10</td>
-                                <td>done using many diff e.g. </td>
-                            </tr>
-                            <tr>
-                                <td>django templates </td>
-                                <td> week11, week12</td>
-                                <td>not yet </td>
-                            </tr>
-                            <tr>
-                                <td>django Views </td>
-                                <td> week12, week13, week14</td>
-                                <td>not yet </td>
-                            </tr>
-                            <tr>
-                                <td>Django Rest API </td>
-                                <td> week13 or week14</td>
-                                <td>not yet </td>
-                            </tr>
-                            <tr>
-                                <td>Django deployment </td>
-                                <td> week14</td>
-                                <td>not yet </td>
-                            </tr>
-
-                        </table>
-                </section>
-            </section>
-            <section>
-                 <ul role="listbox" tabindex="0" aria-label="email list">
-                        <li tabindex="-1" role="option" aria-checked="false">
-                 <div class="form-check mb-0">
-                    <input tabindex="-1" id="check1" class="form-check-input" type="checkbox"><label for="check1" class="form-check-label"></label>
-                        Important information about your account
-                </div>
-                        </li>
-                </ul>
-            </section>
-
+                    </tr>
+                    {% endfor %}
+                </table>
         </section>
-        <footer>
-            <h2>This is page footer</h2>
-            <p>
-                My first Name, last name, ID
-                <br> (c) winter - 2022
-            </p>
-        </footer>
-    </section>
-</body>
-</html>
+    {% endblock content %}

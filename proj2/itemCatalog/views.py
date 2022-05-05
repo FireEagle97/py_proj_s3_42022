@@ -1,8 +1,9 @@
 # Create your views here.
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView
 from .models import Item
+from django.http import HttpResponseRedirect
 from .forms import ItemForm
 
 
@@ -15,11 +16,11 @@ def home(req):
 def item_list(req):
     data = {'page_title': "Docs App",
             'greet': "Welcome to Home Page"}
-    return render(req, 'itemCatalog/item_list.html', context=data)
+    return render(req, 'itemCatalog/items_list.html', context=data)
 
 
 class MyListItemsView(View):
-    template_name = 'itemCatalog/item_list.html'
+    template_name = 'itemCatalog/items_list.html'
 
     def get(self, req, *args, **kwargs):
         res = Item.objects.all()
@@ -48,4 +49,31 @@ class MyItemDetailView(View):
 
 
 def add_item(req):
-    return render(req, 'itemCatalog/add_item.html', {})
+    submitted = False
+    if req.method == "POST":
+        form = ItemForm(req.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("item_list")
+    else:
+        form = ItemForm
+        if 'submitted' in req.GET:
+            submitted = True
+    form = ItemForm
+    return render(req, 'itemCatalog/add_item.html', {'form': form, 'submitted': submitted})
+
+
+def update_item(req, item_id):
+    item = Item.objects.get(pk=item_id)
+    form = ItemForm(req.POST or None, instance=item)
+    if form.is_valid():
+        form.save()
+        return redirect('items_list')
+    return render(req, 'itemCatalog/update_item.html', {'item': item,
+                                                        'form': form})
+
+
+def delete_item(req, item_id):
+    item = Item.objects.get(pk=item_id)
+    item.delete()
+    return redirect('items_list')
