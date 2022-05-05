@@ -1,11 +1,9 @@
 # Create your views here.
 from django.shortcuts import render, get_object_or_404
-
-# Create your views here.
 from django.views import View
 from django.views.generic import ListView, DetailView
-
 from .models import Item
+from .forms import ItemForm
 
 
 def home(req):
@@ -47,3 +45,7 @@ class MyItemDetailView(View):
     def get(self, req, *args, **kwargs):
         my_item = get_object_or_404(Item, id=kwargs['id'])
         return render(req, self.template_name, {'i': my_item})
+
+
+def add_item(req):
+    return render(req, 'itemCatalog/add_item.html', {})
