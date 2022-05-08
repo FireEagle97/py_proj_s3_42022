@@ -1,18 +1,15 @@
 {% extends 'base.html' %}
             {% block content %}
-                <section class="info">
+                <section >
                         <h4> Sign Up </h4>
                     <form  method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <fieldset>
                             {{ reg_form }}
                         </fieldset>
-                        <fieldset>
-                            {{ member_form }}
-                        </fieldset>
 
                         <input type="submit" value=" REGISTER NOW! " />
                     </form>
 
                 </section>
-        {% endblock content %}
+            {% endblock content %}
