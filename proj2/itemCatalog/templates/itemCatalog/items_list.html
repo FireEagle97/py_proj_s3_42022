@@ -2,6 +2,7 @@
     {% block content %}
         <section class="info">
             <h4>Django web development demo</h4>
+                <a href="{% url 'add_item' %}"> add an item</a>
                 <table>
                     <tr>
                         <th>title</th>
@@ -16,6 +17,12 @@
 
                         </td>
                         <td>{{obj.price}}</td>
+                        <td align="right">
+                            <a href="{% url 'update_item' obj.item_id %}" class="btn btn-outline-secondary"> Update </a>
+                        <td align="right">
+                            <a href="{% url 'delete_item' obj.item_id %}" class="btn btn-outline-danger"> Delete </a>
+                        </td>
+
                     </tr>
                     {% endfor %}
                 </table>
