@@ -8,23 +8,14 @@ class ItemForm(ModelForm):
     class Meta:
         model = Item
         fields = ('title', 'genre', 'description', 'price', 'address', 'status', 'image')
-        labels = {
-            'title': '',
-            'genre': '',
-            'description': '',
-            'price': '',
-            'address': '',
-            'status': '',
-            'image': '',
 
-        }
         widgets = {
-            'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'title'}),
-            'genre': forms.TextInput(attrs={'class':'form-control','placeholder':'genre'},),
-            'description': forms.TextInput(attrs={'class':'form-control','placeholder':'description'}),
-            'price': forms.NumberInput(attrs={'class':'form-control','placeholder':'price'}),
-            'address': forms.TextInput(attrs={'class':'form-control','placeholder':'address'}),
-            'status': forms.TextInput(attrs={'class':'form-control','placeholder':'status'}),
-            'image': forms.FileInput(attrs={'class':'form-control','placeholder':'image'}),
+            'title': forms.TextInput(attrs={'class':'form-control'}),
+            'genre': forms.TextInput(attrs={'class':'form-control'},),
+            'description': forms.TextInput(attrs={'class':'form-control'}),
+            'price': forms.NumberInput(attrs={'class':'form-control'}),
+            'address': forms.TextInput(attrs={'class':'form-control'}),
+            'status': forms.Select(attrs={'class':'form-control'}),
+            'image': forms.FileInput(attrs={'class':'form-control-file'}),
 
         }
