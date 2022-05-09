@@ -54,10 +54,16 @@
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-dark" type="submit">Search</button>
     </form>
+    {% if user.is_authenticated %}
+    {% else %}
+    <section class="section"> <a href="{% url 'member_login' %}"></a> </section>
+    <section class="section"> <a href="{% url 'member_register' %}"></a> </section>
+    {% endif %%}
   </div>
 </nav>
 {% endblock header %}
 {% block content %}
+
 {% endblock content %}
 
 <!-- Footer -->

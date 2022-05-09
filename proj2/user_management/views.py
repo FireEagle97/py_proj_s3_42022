@@ -3,42 +3,77 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.generic import CreateView
-from proj2.user_management.forms import UserRegistrationForm
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, UpdateView
+from proj2.user_management.forms import UserRegistrationForm, MemberForm, UserEditForm
 
 # Create your views here.
 
 from .forms import UserRegistrationForm
+from ..administration.models import Member
 
 
 class RegisterView(CreateView):
     form_class = UserRegistrationForm
-    success_url = reverse('user_management_register')
-    template_name = 'user_management/register'
+    success_url = reverse_lazy('user_management_register')
+    template_name = 'user_management/register.html'
 
     def get(self, request, *args, **kwargs):
         reg_form = UserRegistrationForm()
+        member_form = MemberForm()
         return render(request, self.template_name,
-                      {'reg_form': reg_form})
+                      {'reg_form': reg_form, 'member_form': member_form})
 
     def post(self, request, *args, **kwargs):
         reg_form = UserRegistrationForm(request.POST)
+        member_form = MemberForm(request.POST, request.FILES)
         if reg_form.is_valid():
             username = reg_form.cleaned_data.get('username')
             reg_form.save()
-            if not member_form.is_valid():
-                raise ValueError(f" error with pic uplaod ...")
-            else:
-                user_pic = member_form.cleaned_data.get('user_pic')
+            if member_form.is_valid():
+                avatar = member_form.cleaned_data.get('avatar')
                 the_user = User.objects.get(username=username)
-                Member.objects.create(affiliation=affiliation, user=the_user,
-                                      user_pic=user_pic)
-                messages.success(request, f"Accout successfuly created fro {username}")
+                Member.objects.create(user=the_user,
+                                      avatar=avatar)
+                messages.success(request, "Account successfully created for {username}")
                 return redirect('member_login')
+            else:
+                messages.error(request, "Error occurred")
+        return render(request, self.template_name, {'reg_form': reg_form})
 
 
+class EditView(UpdateView):
+    form_class = UserEditForm
+    success_url = reverse_lazy('user_management_home')  # change to home
+    template_name = 'user_management/edit.html'
 
+    def get(self, request, *args, **kwargs):
+        user_data = {'email': request.user.email,
+                     'last_name': request.user.last_name,
+                     'first_name': request.user.first_name}
+        edit_form = UserRegistrationForm(user_data)
+        this_member = Member.objects.get(user=request.user)
+        member_data = {'avatar': this_member.avatar}
+        member_form = MemberForm(member_data)
+        return render(request, self.template_name,
+                      {'edit_form': edit_form, 'member_form': member_form})
+
+    def post(self, request, *args, **kwargs):
+        reg_form = UserRegistrationForm(request.POST)
+        member_form = MemberForm(request.POST, request.FILES)
+        if reg_form.is_valid():
+            username = reg_form.cleaned_data.get('username')
+            reg_form.save()
+            if member_form.is_valid():
+                avatar = member_form.cleaned_data.get('avatar')
+                the_user = User.objects.get(username=username)
+                Member.objects.create(user=the_user,
+                                      avatar=avatar)
+                messages.success(request, "Account successfully created for {username}")
+                return redirect('member_login')
+            else:
+                messages.error(request, "Error occurred")
+        return render(request, self.template_name, {'reg_form': reg_form})
 # def home(req):
 #     template_name='user_management/home.html'
 #     print (f"req.user.username {req.user.username}")
