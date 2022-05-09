@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+            {% block content %}
+                <section class="info">
+                        <h4> LOGIN FORM </h4>
+                    <form  method="POST">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="submit" value=" LOGIN " />
+                    </form>
+
+                </section>
+        {% endblock content %}

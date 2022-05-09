@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="form-delete">
+    <h2> Item deletion </h2>
+    <form method="post">
+        {% csrf_token %}
+        <fieldset>
+        <p> Do You really want to delete item?
+            <br>{{ title }}
+        </p>
+        </fieldset>
+        <button type="submit" class="btn btn-danger">
+             YES
+        </button>
+          <a href=" {% url 'home' %}" class="btn btn-secondary">
+                 cancel
+          </a>
+
+
+    </form>
+</section>
+{% endblock content %}
