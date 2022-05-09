@@ -51,29 +51,36 @@ class EditView(UpdateView):
         user_data = {'email': request.user.email,
                      'last_name': request.user.last_name,
                      'first_name': request.user.first_name}
-        edit_form = UserRegistrationForm(user_data)
+        edit_form = UserEditForm(user_data)
         this_member = Member.objects.get(user=request.user)
-        member_data = {'avatar': this_member.avatar}
+        member_data = {'avatar': this_member.avatar.url}
         member_form = MemberForm(member_data)
         return render(request, self.template_name,
                       {'edit_form': edit_form, 'member_form': member_form})
 
     def post(self, request, *args, **kwargs):
-        reg_form = UserRegistrationForm(request.POST)
+        edit_form = UserEditForm(request.POST)
         member_form = MemberForm(request.POST, request.FILES)
-        if reg_form.is_valid():
-            username = reg_form.cleaned_data.get('username')
-            reg_form.save()
+        if edit_form.is_valid():
+            email = edit_form.cleaned_data['email']
+            last_name = edit_form.cleaned_data['last_name']
+            first_name = edit_form.cleaned_data['first_name']
+            request.user.email = email
+            request.user.last_name = last_name
+            request.user.first_name = first_name
+            request.user.save()
+            edit_form.save()
             if member_form.is_valid():
                 avatar = member_form.cleaned_data.get('avatar')
-                the_user = User.objects.get(username=username)
-                Member.objects.create(user=the_user,
-                                      avatar=avatar)
-                messages.success(request, "Account successfully created for {username}")
+                this_member = Member.objects.get(user=request.user)
+                this_member.avatar = avatar
+                this_member.save()
+                member_form.save()
+                messages.success(request, "Profile updated")
                 return redirect('member_login')
             else:
                 messages.error(request, "Error occurred")
-        return render(request, self.template_name, {'reg_form': reg_form})
+        return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
 # def home(req):
 #     template_name='user_management/home.html'
 #     print (f"req.user.username {req.user.username}")
