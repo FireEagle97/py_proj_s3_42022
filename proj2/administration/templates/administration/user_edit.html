@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+    {% block content %}
+        <div style="text-align: center;">
+           <h1>Edit User</h1>
+            <br>
+            <form action="" method=POST>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <br>
+                <input type="submit" value="Update"
+                    class="btn btn-secondary">
+            </form>
+        </div>
+    {% endblock content %}
