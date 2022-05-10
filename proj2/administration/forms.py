@@ -1,7 +1,17 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Item
+from .models import Member
+from django.contrib.auth.models import User, Group
 
-# form for editing user
-class EditUserForm(ModelForm):
-    x = x
+# Create an Item form
+class MemberForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email')
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class':'form-control'}),
+            'last_name': forms.TextInput(attrs={'class':'form-control'},),
+            'username': forms.TextInput(attrs={'class':'form-control'}),
+            'email': forms.TextInput(attrs={'class':'form-control'}),
+        }
