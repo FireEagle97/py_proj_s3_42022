@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
-from proj2.user_management.forms import UserRegistrationForm, MemberForm, UserEditForm
+from user_management.forms import UserRegistrationForm, MemberForm, UserEditForm
 
 # Create your views here.
 
