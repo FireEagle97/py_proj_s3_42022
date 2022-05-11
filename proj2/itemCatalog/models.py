@@ -8,7 +8,7 @@ from django.db import models
 #from ..administration.models import Member
 from proj2.administration.models import Member
 
-status_Choices = (("N","New"), ("LN","Like New"), ("U","Used"))
+status_Choices = (("N", "New"), ("LN", "Like New"), ("U", "Used"))
 
 
 class Item(models.Model):
