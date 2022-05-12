@@ -12,6 +12,13 @@ class Message(models.Model):
     # potentially use dt.now for dates upon instantiation
     unread = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.sender + ' | ' + self.send_date
+
+class MessageMenu(models.Model):
+    sender = models.CharField(max_length=100)
+    sender_id = models.IntegerField
+    send_date = models.DateTimeField("Sent on")
 
 class Comment(models.Model):
     comment_text = models.CharField(max_length=500)
