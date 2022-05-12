@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User, Group
+from django.http import HttpResponseRedirect
 
 
 # Create your views here.
@@ -84,14 +85,10 @@ class EditUserClassView(UpdateView):
             member.user.last_name = edit_form.cleaned_data.get('last_name')
             member.user.first_name = edit_form.cleaned_data.get('first_name')
             member.user.save()
+            return HttpResponseRedirect(reverse_lazy('administration_user_list'))
         else:
             messages.error(request, f"Error occured")
-        return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
-
-
-
-
-
+            return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
 
 
 class DeleteUserClassView(UserPassesTestMixin, SuccessMessageMixin, DeleteView):

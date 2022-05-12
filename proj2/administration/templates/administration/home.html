@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
     {% block content %}
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-                {% for usr in usr_list %}
+            {% for usr in usr_list %}
 
         <div class="col-auto">
             <div class="card" style="width: 18rem;">
               <img class="card-img-top" src={{ usr.avatar.url }} alt="Avatar">
                   <div class="card-body">
                       <p>{{ usr.id }}</p>
+                      <p>{{ usr.group.name }} </p>
                       <p>{{ usr.user.first_name }} {{ usr.user.last_name }}</p>
                       <p>GROUP</p>
                       <a href="{% url 'administration_edit_user' usr.id %}" class="btn btn-outline-primary"> Edit Details </a>

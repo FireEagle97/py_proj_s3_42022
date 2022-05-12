@@ -2,7 +2,7 @@
             {% block content %}
                 <section class="info">
                         <h4> Edit Member </h4>
-                    <form  method="POST" enctype="multipart/form-data">
+                    <form  method="POST" enctype="multipart/form-data" action="">
                         {% csrf_token %}
                         <fieldset>
                             {{ edit_form }}

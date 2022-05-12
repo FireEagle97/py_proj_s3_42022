@@ -7,5 +7,5 @@ from django.db import models
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='item_pics',
-                              default='user_default_image.jpg')
+    avatar = models.ImageField(upload_to='user_pics',
+                              default='user_default_image.png')
