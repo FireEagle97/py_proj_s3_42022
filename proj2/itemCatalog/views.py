@@ -1,26 +1,18 @@
 # Create your views here.
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
+from administration.models import Member
 from .models import Item
-from django.http import HttpResponseRedirect
 from .forms import ItemForm
-
-
-def home(req):
-    data = {'page_title': "Docs App",
-            'greet': "Welcome to Home Page"}
-    return render(req, 'itemCatalog/home.html', context=data)
-
-
-def item_list(req):
-    data = {'page_title': "Docs App",
-            'greet': "Welcome to Home Page"}
-    return render(req, 'itemCatalog/items_list.html', context=data)
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class MyListItemsView(View):
-    template_name = 'itemCatalog/items_list.html'
+    template_name = 'itemCatalog/home.html'
 
     def get(self, req, *args, **kwargs):
         res = Item.objects.all()
@@ -48,32 +40,46 @@ class MyItemDetailView(View):
         return render(req, self.template_name, {'i': my_item})
 
 
-def add_item(req):
-    submitted = False
-    if req.method == "POST":
-        form = ItemForm(req.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("item_list")
-    else:
-        form = ItemForm
-        if 'submitted' in req.GET:
-            submitted = True
-    form = ItemForm
-    return render(req, 'itemCatalog/add_item.html', {'form': form, 'submitted': submitted})
+class CreateItemClassView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Item
+    form_class = ItemForm
+    success_url = reverse_lazy('home')
+    success_message = "item was created successfully ..."
+    extra_context = {
+        'form_legend': 'Create a New Item',
+        'form_submit_btn': "NEW Item!"
+    }
+
+    def form_valid(self, form):
+        form.instance.owner = \
+            Member.objects.get(user=self.request.user)
+        return super().form_valid(form)
 
 
-def update_item(req, item_id):
-    item = Item.objects.get(pk=item_id)
-    form = ItemForm(req.POST or None, instance=item)
-    if form.is_valid():
-        form.save()
-        return redirect('items_list')
-    return render(req, 'itemCatalog/update_item.html', {'item': item,
-                                                        'form': form})
+class UpdateItemClassView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Item
+    form_class = ItemForm
+    success_url = reverse_lazy('home')
+    success_message = "item was updated successfully ..."
+    extra_context = {
+        'form_legend': 'Update an item',
+        'form_submit_btn': "Update"
+    }
+
+    def test_func(self):
+        post2update = self.get_object()
+
+        print(f"res:{self.request.user == post2update.owner.user}")
+        return self.request.user == post2update.owner.user
 
 
-def delete_item(req, item_id):
-    item = Item.objects.get(pk=item_id)
-    item.delete()
-    return redirect('items_list')
+class DeletePostClassView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+    model = Item
+    success_url = reverse_lazy('home')
+    success_message = "item was deleted successfully ..."
+
+    def test_func(self):
+        post2delete = self.get_object()
+
+        print(f"res:{self.request.user == post2delete.owner.user}")
+        return self.request.user == post2delete.owner.user

@@ -10,26 +10,24 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1',
+        fields = ['username', 'email', 'password1', 'password2',
                   'last_name', 'first_name']
 
 
-# from .models import Member
-#
-# class MemberForm (forms.ModelForm):
-#     class Meta:
-#         model= Member
-#         fields = ['affiliation', 'user_pic']
-#
-# #----------
+from administration.models import Member
 
-# class UserEditForm (UserChangeForm):
-#     email = forms.EmailField(required=True)
-#     last_name = forms.CharField(max_length="50", required=False)
-#     first_name = forms.CharField(max_length="50", required=False)
-#
-#     class Meta:
-#         model=User
-#         fields = ('email', 'last_name', 'first_name')
-#
-#
+
+class MemberForm(forms.ModelForm):
+    class Meta:
+        model = Member
+        fields = ['avatar']
+
+
+class UserEditForm(UserChangeForm):
+    email = forms.EmailField(required=True)
+    last_name = forms.CharField(max_length="50", required=False)
+    first_name = forms.CharField(max_length="50", required=False)
+
+    class Meta:
+        model = User
+        fields = ('email', 'last_name', 'first_name')
