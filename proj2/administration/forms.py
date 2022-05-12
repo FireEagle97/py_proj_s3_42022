@@ -21,11 +21,11 @@ class MemberForm(ModelForm):
         model = Member
         fields = ['avatar']
 
-class UserEditForm (UserChangeForm):
+class UserEditForm (ModelForm):
     email = forms.EmailField(required=True)
     last_name = forms.CharField(max_length="50", required=False)
     first_name = forms.CharField(max_length="50", required=False)
 
     class Meta:
         model=User
-        fields = ('email', 'last_name', 'first_name')
+        fields = ('email', 'first_name', 'last_name')
