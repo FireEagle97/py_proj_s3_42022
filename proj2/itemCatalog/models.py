@@ -5,6 +5,7 @@ from django.db import models
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
+#from ..administration.models import Member
 from administration.models import Member
 
 status_Choices = (("N", "New"), ("LN", "Like New"), ("U", "Used"))

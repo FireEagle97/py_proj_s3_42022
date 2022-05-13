@@ -55,10 +55,19 @@
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-dark" type="submit">Search</button>
     </form>
+    {% if user.is_authenticated %}
+    <section class="section"> Logged in as {{ user.username }} </section>
+    <section class="section"> <a href="{% url 'member_logout' %}">Logout</a> </section>
+    <section class="section"> <a href="{% url 'member_edit' %}">Edit Profile</a> </section>
+    {% else %}
+    <section class="section"> <a href="{% url 'member_login' %}"> Login</a> </section>
+    <section class="section"> <a href="{% url 'member_register' %}">Register</a> </section>
+    {% endif %}
   </div>
 </nav>
 {% endblock header %}
 {% block content %}
+
 {% endblock content %}
 
 <!-- Footer -->
