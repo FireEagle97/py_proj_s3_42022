@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/proj2" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/django_env" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (project2b)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

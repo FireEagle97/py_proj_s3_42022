@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="form-delete">
+    <h2> User deletion </h2>
+    <form method="post">
+        {% csrf_token %}
+        <fieldset>
+        <p> Do you really want to delete user?
+            <br>{{ username }}
+        </p>
+        </fieldset>
+        <button type="submit" class="btn btn-danger">
+             YES
+        </button>
+          <a href=" {% url 'administration_user_list' %}" class="btn btn-secondary">
+                 cancel
+          </a>
+
+
+    </form>
+</section>
+{% endblock content %}
