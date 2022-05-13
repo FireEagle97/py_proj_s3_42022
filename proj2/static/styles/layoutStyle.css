@@ -17,3 +17,21 @@ body{
 #item-container{
     padding: 20px;
 }
+.item-title{
+    margin-bottom: 0.75rem;
+    color: #808080;
+    font-weight: bold;
+
+}
+.item-title:hover{
+    color: #666666;
+    text-decoration: none;
+}
+.rev-btn{
+    background-color: inherit !important;
+    border : 0 !important;
+    margin-bottom: 1rem;
+}
+#id_comment{
+    vertical-align: top;
+}

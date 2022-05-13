@@ -8,16 +8,15 @@
                     add an item
                 </button>
             </a>
-<!--            <div class="row justify-content-center row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">-->
-           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+                   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
                 {% for obj in object_list %}
 
         <div class="col-auto">
             <div class="card" style="width: 18rem;">
               <img class="card-img-top" src={{ obj.image.url }} alt="Card image cap">
                   <div class="card-body">
-                      <a href="{% url 'itemCatalog_item_detail' obj.id %}">
-                          <h5 class="card-title">{{obj.title}}</h5>
+                      <a class="item-title" href="{% url 'itemCatalog_item_detail' obj.id %}">
+                          <h5 class="item-title">{{obj.title}}</h5>
                             </a>
 
                     <p class="card-price">{{obj.price}}$</p>
@@ -25,13 +24,12 @@
                       <p class="item-owner">added by: {{obj.owner.user}}</p>
                       <a href="{% url 'item-update' obj.id %}" class="btn btn-outline-secondary"> Update </a>
                       <a href="{% url 'item-delete' obj.id %}" class="btn btn-outline-danger"> Delete </a>
-<!--                          <p class="card-text">{{obj.description}}</p>-->
-<!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
                   </div>
             </div>
             </div>
             {% endfor %}
            </div>
+
        </div>
 
         </section>
