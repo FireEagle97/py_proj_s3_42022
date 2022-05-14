@@ -9,3 +9,4 @@ class Member(models.Model):
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='user_pics',
                               default='user_default_image.png')
+

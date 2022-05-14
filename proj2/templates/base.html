@@ -51,10 +51,13 @@
         <a class="nav-link disabled" href="#">Disabled</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    {% if user.is_authenticated %}
+    <form class="form-inline my-2 my-lg-0" method=POST action="{% url 'item_search' %}">
+      {% csrf_token %}
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" name="searched" aria-label="Search">
       <button class="btn btn-dark" type="submit">Search</button>
     </form>
+    {% endif %}
     {% if user.is_authenticated %}
     <section class="section"> Logged in as {{ user.username }} </section>
     <section class="section"> <a href="{% url 'member_logout' %}">Logout</a> </section>

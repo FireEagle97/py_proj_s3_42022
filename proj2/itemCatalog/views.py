@@ -38,7 +38,7 @@ class ItemReviewDetail(FormMixin, DetailView):
     def get(self, request, *args, **kwargs):
         the_item = get_object_or_404(Item, id=kwargs.get('pk'))
         review_form = ReviewForm
-        item_reviews = Review.objects.filter(item_id = the_item.id)
+        item_reviews = Review.objects.filter(item_id=the_item.id)
 
         context = {
             'item': the_item,
@@ -47,7 +47,7 @@ class ItemReviewDetail(FormMixin, DetailView):
         }
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, **kwargs):
         # if not request.user.is_authenticated:
         #     return HttpResponseForbidden()
         the_item = get_object_or_404(Item, id=kwargs.get('pk'))
@@ -57,11 +57,7 @@ class ItemReviewDetail(FormMixin, DetailView):
             'review_form': review_form,
 
         }
-        print("printing form")
-        # self.object = self.get_object()
-
         if review_form.is_valid():
-            print("inside form")
             member = Member.objects.get(user=request.user)
             Review.objects.filter(item=the_item).filter(author=member).delete()
             Review.objects.create(rate=review_form.instance.rate, item=the_item, author=member,
@@ -129,3 +125,18 @@ class DeletePostClassView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessag
 
         print(f"res:{self.request.user == post2delete.owner.user}")
         return self.request.user == post2delete.owner.user
+
+
+class ListSearchedItems(LoginRequiredMixin, ListView):
+    model = Item
+    template_name = 'itemCatalog/item_search.html'
+
+    def post(self, req):
+        searched = req.POST['searched']
+        items_list = Item.objects.filter(title__icontains=searched)
+        if items_list.exists():
+            return render(req, self.template_name, {'searched': searched,
+                                                    'items_list': items_list, })
+        else:
+            return render(req, self.template_name, {'searched': "No results found",
+                                                    })

@@ -5,10 +5,10 @@ from django.db import models
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
-#from ..administration.models import Member
+# from ..administration.models import Member
 from administration.models import Member
 
-status_Choices = (("N", "New"), ("LN", "Like New"), ("U", "Used"))
+status_Choices = (("New", "New"), ("Like New", "Like New"), ("Used", "Used"))
 
 
 class Item(models.Model):
@@ -19,7 +19,7 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
     address = models.CharField(max_length=50)
     status = models.CharField(max_length=10, choices=status_Choices, default="New")
-    image = models.ImageField(upload_to='item_pics',
+    image = models.ImageField(upload_to='item_pics/',
                               default='item_default_image.jpg')
 
     def __str__(self):
@@ -27,7 +27,7 @@ class Item(models.Model):
 
 
 class Review(models.Model):
-    author = models.ForeignKey(Member,on_delete=models.CASCADE)
+    author = models.ForeignKey(Member, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     rate = models.IntegerField(default=0, validators=[
         MaxValueValidator(5),
@@ -36,6 +36,7 @@ class Review(models.Model):
     comment = models.TextField(max_length=250, default='')
     created_date = models.DateTimeField(auto_now_add=True)
 
+# needs to divide Review to rate and comment
 # lst_items = [
 #     ("Lego Star Wars", "Video Game", "Lego Star Wars: The Complete Saga is\
 #                                                       a Lego-themed action-adventure video game based on the Lego Star Wars line of toys.\
@@ -50,4 +51,3 @@ class Review(models.Model):
 #     ("Wood Desk", "Furniture", "A 1988 Antique Wood Desk", "499.99", "99 Forest Avenue", "Used", "92"),
 #
 # ]
-

@@ -16,7 +16,7 @@ class ItemForm(ModelForm):
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
-            'image': forms.FileInput(attrs={'class': 'form-control-file'}),
+
 
         }
 
