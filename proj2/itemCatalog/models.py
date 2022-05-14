@@ -36,6 +36,8 @@ class Review(models.Model):
     comment = models.TextField(max_length=250, default='')
     created_date = models.DateTimeField(auto_now_add=True)
 
+
+
 # needs to divide Review to rate and comment
 # lst_items = [
 #     ("Lego Star Wars", "Video Game", "Lego Star Wars: The Complete Saga is\

@@ -35,3 +35,9 @@ body{
 #id_comment{
     vertical-align: top;
 }
+.page-link{
+    color: grey;
+}
+.page-link:hover{
+    color : grey;
+}
