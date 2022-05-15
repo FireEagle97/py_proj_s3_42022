@@ -9,7 +9,7 @@ class Member(models.Model):
     group = models.ForeignKey(Group, choices=group_choices ,on_delete=models.CASCADE)
     is_flagged = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to='user_pics',
-                              default='user_default_image.png')
+                               default='user_default_image.png')
 
 class Member_Warn(models.Model):
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
