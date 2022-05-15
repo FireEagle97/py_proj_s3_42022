@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
     {%block content %}
     <div class="form-input">
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
                 <legend>
                     {{ form_legend }}
