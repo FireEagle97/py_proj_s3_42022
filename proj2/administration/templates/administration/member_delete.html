@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+            {% block content %}
+                <div class="container">
+                    <div class="row">
+                        <h5> Are you sure you want to delete user:&nbsp;</h5>
+                        <h5 style="color: #4dc3ff"> {{ member.user.username }} </h5>
+                    </div>
+
+                    <div class="row">
+                        <form  method="POST" enctype="multipart/form-data" action="">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-danger"/>
+                            <a href="{% url 'administration_user_list' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </form>
+                    </div>
+
+
+                </div>
+            {% endblock content %}
