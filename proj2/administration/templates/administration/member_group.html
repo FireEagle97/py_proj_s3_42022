@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
             {% block content %}
                 <section class="info">
-                        <h4> Edit Member: {{ member }} </h4>
+                  <h4> Edit Member: {{ member }} </h4>
                     <form  method="POST" enctype="multipart/form-data" action="">
                         {% csrf_token %}
                         <table>
-                            {{ edit_form.as_table }}
+                            {{ choice_form.as_table }}
                         </table>
                         <table>
                             {{ member_form.as_table }}
