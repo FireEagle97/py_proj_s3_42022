@@ -7,7 +7,7 @@
 body{
    background: #eee;
 }
-#add-btn{
+#add-btn, #dropdownMenuButton1, #dropdownMenuButton2{
     margin:10px 10px;
 }
 .form-delete{
@@ -40,4 +40,8 @@ body{
 }
 .page-link:hover{
     color : grey;
+}
+
+#filterbyDropdown, #orderbyDropdown{
+    color:red;
 }

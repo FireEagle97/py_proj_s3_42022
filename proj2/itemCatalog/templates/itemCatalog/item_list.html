@@ -3,12 +3,39 @@
         <section class="info">
 
        <div class="container-fluid mb-4">
-           <a href="{% url 'item-create' %}">
-                <button class="btn btn-secondary" id="add-btn">
-                    add an item
-                </button>
-            </a>
-                   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+           <div class="row">
+               <div class=".col-6 .col-md-4">
+                    <a href="{% url 'item-create' %}">
+                        <button class="btn btn-secondary" id="add-btn">
+                            add an item
+                        </button>
+                    </a>
+               </div>
+               <div class=".col-6 .col-md-4">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Filter by
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="">filter1</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+               </div>
+               <div class=".col-6 .col-md-4">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Order by
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'item_order_desc_alph' %}">A-Z order</a>
+                    <a class="dropdown-item" href="{% url 'item_order_asc_alph' %}">Z-A order</a>
+                    <a class="dropdown-item" href="{% url 'item_order_desc_price' %}">Price Low-High</a>
+                    <a class="dropdown-item" href="{% url 'item_order_asc_price' %}">Price High-Low</a>
+                    </div>
+               </div>
+           </div>
+
+           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 justify-content-center">
+
                 {% for obj in object_list %}
 
         <div class="col-auto">

@@ -73,7 +73,35 @@ class ItemReviewDetail(FormMixin, DetailView):
 class MyListItems(ListView):
     model = Item
     template_name = 'itemCatalog/item_list.html'
-    paginate_by = 5
+    paginate_by = 8
+
+
+class OrderItemsByAlphDesc(ListView):
+    model = Item
+    template_name = 'itemCatalog/item_list.html'
+    paginate_by = 8
+    ordering = ['title']
+
+
+class OrderItemsByAlphAsc(ListView):
+    model = Item
+    template_name = 'itemCatalog/item_list.html'
+    paginate_by = 8
+    ordering = ['-title']
+
+
+class OrderItemsByPriceDesc(ListView):
+    model = Item
+    template_name = 'itemCatalog/item_list.html'
+    paginate_by = 8
+    ordering = ['price']
+
+
+class OrderItemsByPriceAsc(ListView):
+    model = Item
+    template_name = 'itemCatalog/item_list.html'
+    paginate_by = 8
+    ordering = ['-price']
 
     # def get(self, req, *args, **kwargs):
     #     res = Item.objects.all()
