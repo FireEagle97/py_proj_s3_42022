@@ -47,7 +47,14 @@
                 </form>
             </section>
             <br>
-                <section>{{object.rate}}</section>
+            <div>
+                {{ comments_list }}
+                {% for comment in object_list %}
+                    <p>
+                        {{ comment.comment }}
+                    </p>
+                {% endfor %}
+            </div>
         </section>
 
         </div>

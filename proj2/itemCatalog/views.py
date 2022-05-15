@@ -48,6 +48,14 @@ class ItemReviewDetail(FormMixin, DetailView):
         }
         return render(request, self.template_name, context)
 
+    def get_reviews(self, req, *args, **kwargs):
+        the_item = get_object_or_404(Item, id=kwargs.get('pk'))
+        res = Review.objects.filter(item=the_item)
+        data = {'comments_list': "Comments: ",
+                'object_list': res,
+                }
+        return render(req, self.template_name, context=data)
+
     def post(self, request, **kwargs):
         # if not request.user.is_authenticated:
         #     return HttpResponseForbidden()
