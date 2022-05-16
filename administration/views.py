@@ -137,36 +137,11 @@ class FlagUserClassView(UserPassesTestMixin,LoginRequiredMixin, View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
-<<<<<<< HEAD:administration/views.py
-# class FlagUserClassView(View):
-#     model = Member_Flag
-#     template_name = 'administration/item_list.html'
-#
-#     def get(self, request, *args, **kwargs):
-#         member_flagged = get_object_or_404(Member, id=kwargs['pk'])
-#         member_flag_count = Member_Flag.objects.filter(member=member_flagged).count()
-#
-#         if member_flag_count:
-#             member_flag = get_object_or_404(Member_Flag, member=member_flagged)
-#             if not member_flag.is_flagged:
-#                 member_flag.is_flagged = True
-#             else:
-#                 member_flag.is_flagged = False
-#         else:
-#             member_flag = Member_Flag(member=member_flagged, is_flagged=True)
-#         member_flag.save()
-#
-#         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
-
-
-class WarnUserClassView(View):
-=======
     def test_func(self):
         return 1 == 1
 
 
 class WarnUserClassView(UserPassesTestMixin, LoginRequiredMixin, View):
->>>>>>> 4de322a09e75190c643256928e5084ec2af18ded:proj2/administration/views.py
     model = Member
     template_name = 'administration/home.html'
 
