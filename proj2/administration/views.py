@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 
 
 # Create your views here.
-class MyListMemberView(UserPassesTestMixin, LoginRequiredMixin, View):
+class MyListMemberView(LoginRequiredMixin, View):
     template_name = 'administration/home.html'
 
     def get(self, request, *args, **kwargs):
@@ -20,11 +20,15 @@ class MyListMemberView(UserPassesTestMixin, LoginRequiredMixin, View):
         data = {
             'usr_list': res
         }
-        return render(request, self.template_name, context=data)
 
-    def test_func(self):
-        return 1 == 1
-
+        if request.user.is_authenticated:
+            group_super = Group.objects.get(name="Admin_super_grp")
+            group_user = Group.objects.get(name="Admin_user_grp")
+            user_to_test = request.user
+            if (group_super in user_to_test.groups.all() or group_user in user_to_test.groups.all()):
+                return render(request, self.template_name, context=data)
+            else:
+                return HttpResponseRedirect(reverse_lazy('home'))
 
 class EditUserClassView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     form_class = UserEditForm

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load auth_extras %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -42,9 +43,11 @@
       <li class="nav-item mr-2">
         <a class=" btn btn-secondary" href="{% url 'home' %}">Profile</a>
       </li>
+        {% if request.user|has_group:"Admin_super_grp" or request.user|has_group:"Admin_user_grp" %}
       <li class="nav-item mr-2">
         <a class=" btn btn-secondary" href="{% url 'administration_user_list' %}">Users List</a>
       </li>
+        {% endif %}
 <!--      <li class="nav-item dropdown">-->
 <!--        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
 <!--          Dropdown-->
@@ -65,7 +68,7 @@
     </form>
     {% endif %}
     {% if user.is_authenticated %}
-    <section class="section"> Logged in as {{ user.username }} </section>
+    <section class="section" style="color: lightgrey"> Logged in as {{ user.username }} &nbsp;</section>
     <section class="section"> <a href="{% url 'member_logout' %}" class="btn btn-success mr-2">Logout</a> </section>
     <section class="section"> <a href="{% url 'member_edit' %}" class="btn btn-info">Edit Profile</a> </section>
     {% else %}
