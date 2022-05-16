@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView
 from .models import Member
-from .forms import MemberForm, UserEditForm
+from .forms import MemberForm, UserEditForm, UserRegistrationForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -21,36 +21,11 @@ class MyListMemberView(View):
     template_name = 'administration/home.html'
 
     def get(self, request, *args, **kwargs):
-        res = Member.objects.all()
+        res = Member.objects.all().order_by('pk')
         data = {
             'usr_list': res
         }
         return render(request, self.template_name, context=data)
-
-# class MyEditMemberDetailView(FormView):
-#     model = Member
-#     template_name = 'administration/user_edit.html'
-#     form_class = MemberForm
-#
-#     def get(self, request, *args, **kwargs):
-#         member = get_object_or_404(Member, id=kwargs['pk'])
-#
-#         return render(request, self.template_name, {'member': member})
-
-class CreateUserClassView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    model = Member
-    form_class = MemberForm
-    success_url = reverse_lazy('administration_user_list')
-    success_message = "user was created successfully ..."
-    extra_context = {
-        'form_legend': 'Create a New User',
-        'form_submit_btn': "Create User"
-    }
-
-    def form_valid(self, form):
-        form.instance.owner = \
-            Member.objects.get(user=self.request.user)
-        return super().form_valid(form)
 
 
 class EditUserClassView(UpdateView):
@@ -74,7 +49,7 @@ class EditUserClassView(UpdateView):
         this_member = Member.objects.get(user = member.user)
         member_data = {'user_pic': this_member.avatar.url}
         member_form = MemberForm(member_data)
-        return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
+        return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form, 'member': member.user.username})
 
     def post(self, request, *args, **kwargs):
         member = get_object_or_404(Member, id=kwargs['pk'])
@@ -90,25 +65,92 @@ class EditUserClassView(UpdateView):
             messages.error(request, f"Error occured")
             return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
 
-
-class DeleteUserClassView(UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class DeleteUserClassView(View):
     model = Member
     success_url = reverse_lazy('administration_user_list')
-    success_message = "user was successfully deleted ..."
-
-    def test_func(self):
-        user_delete = self.get_object()
-
-        print(f"res:{1 == 1}")
-        return 1 == 1
-
-
-class GroupUserClassView(View):
-    template_name = 'administration/user_group.html'
+    success_message = "user was successfully deleted"
+    template_name = "administration/member_delete.html"
+    extra_content = {
+        'form_legend': 'Delete a User',
+        'form_submit_btn': "Delete"
+    }
 
     def get(self, request, *args, **kwargs):
-        res = Member.objects.all()
-        data = {
-            'usr_list': res
-        }
-        return render(request, self.template_name, context=data)
+        member = get_object_or_404(Member, id=kwargs['pk'])
+
+        return render(request, self.template_name, {'member': member})
+
+    def post(self, request, *args, **kwargs):
+        member = get_object_or_404(Member, id=kwargs['pk'])
+        user = get_object_or_404(User, username=member.user.username)
+
+        user.delete()
+        member.delete()
+
+        return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+
+class GroupUserClassView(View):
+    template_name = 'administration/member_group.html'
+
+    def get(self, request, *args, **kwargs):
+        member = get_object_or_404(Member, id=kwargs['pk'])
+        choice_form = SelectGroupForm()
+
+
+        return render(request, self.template_name, {'choice_form': choice_form})
+
+class FlagUserClassView(View):
+    model = Member
+    template_name = 'administration/home.html'
+
+    def get(self, request, *args, **kwargs):
+        member_flagged = get_object_or_404(Member, id=kwargs['pk'])
+
+        if not member_flagged.is_flagged:
+            member_flagged.is_flagged = True
+        else:
+            member_flagged.is_flagged = False
+
+        member_flagged.save()
+
+        return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+
+# class FlagUserClassView(View):
+#     model = Member_Flag
+#     template_name = 'administration/home.html'
+#
+#     def get(self, request, *args, **kwargs):
+#         member_flagged = get_object_or_404(Member, id=kwargs['pk'])
+#         member_flag_count = Member_Flag.objects.filter(member=member_flagged).count()
+#
+#         if member_flag_count:
+#             member_flag = get_object_or_404(Member_Flag, member=member_flagged)
+#             if not member_flag.is_flagged:
+#                 member_flag.is_flagged = True
+#             else:
+#                 member_flag.is_flagged = False
+#         else:
+#             member_flag = Member_Flag(member=member_flagged, is_flagged=True)
+#         member_flag.save()
+#
+#         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+
+
+class WarnUserClassView(View):
+    model = Member
+    success_url = reverse_lazy('administration_user_list')
+    success_message = "user was successfully deleted"
+    template_name = "administration/member_delete.html"
+    extra_content = {
+        'form_legend': 'Delete a User',
+        'form_submit_btn': "Delete"
+    }
+
+    def post(self, request, *args, **kwargs):
+        member = get_object_or_404(Member, id=kwargs['pk'])
+        user = get_object_or_404(User, username=member.user.username)
+
+        user.delete()
+        member.delete()
+
+        return HttpResponseRedirect(reverse_lazy('administration_user_list'))
