@@ -139,3 +139,30 @@ class WarnUserClassView(View):
         member.delete()
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+
+class CreateUserClassView(View):
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy('administration_user_list')
+    template_name = 'administration/member_create.html'
+
+    def get(self, request, *args, **kwargs):
+        reg_form = UserRegistrationForm()
+        member_form = MemberForm()
+        return render(request, self.template_name,
+                      {'reg_form': reg_form, 'member_form': member_form})
+
+    def post(self, request, *args, **kwargs):
+        reg_form = UserRegistrationForm(request.POST)
+        member_form = MemberForm(request.POST, request.FILES)
+        if reg_form.is_valid():
+            username = reg_form.cleaned_data.get('username')
+            reg_form.save()
+            if member_form.is_valid():
+                avatar = member_form.cleaned_data.get('avatar')
+                the_user = User.objects.get(username=username)
+                Member.objects.create(user=the_user,
+                                      avatar=avatar, group_id=1)
+                return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+            else:
+                messages.error(request, "Error occurred")
+        return render(request, self.template_name, {'reg_form': reg_form})
