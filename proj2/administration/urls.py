@@ -8,5 +8,6 @@ urlpatterns = [
     path('user-delete/<int:pk>', views.DeleteUserClassView.as_view(), name='administration_delete_user'),
     path('member-group/<int:pk>', views.GroupUserClassView.as_view(), name='administration_group_user'),
     path('member_flag/<int:pk>', views.FlagUserClassView.as_view(), name='administration_flag_user'),
+    path('member_warn/<int:pk>', views.WarnUserClassView.as_view(), name='administration_warn_user'),
     path('user-create/', views.CreateUserClassView.as_view(), name='administration_create_user'),
 ]

@@ -123,20 +123,17 @@ class FlagUserClassView(View):
 
 class WarnUserClassView(View):
     model = Member
-    success_url = reverse_lazy('administration_user_list')
-    success_message = "user was successfully deleted"
-    template_name = "administration/member_delete.html"
-    extra_content = {
-        'form_legend': 'Delete a User',
-        'form_submit_btn': "Delete"
-    }
+    template_name = 'administration/home.html'
 
-    def post(self, request, *args, **kwargs):
-        member = get_object_or_404(Member, id=kwargs['pk'])
-        user = get_object_or_404(User, username=member.user.username)
+    def get(self, request, *args, **kwargs):
+        member_warned = get_object_or_404(Member, id=kwargs['pk'])
 
-        user.delete()
-        member.delete()
+        if not member_warned.is_warned:
+            member_warned.is_warned = True
+        else:
+            member_warned.is_warned = False
+
+        member_warned.save()
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
