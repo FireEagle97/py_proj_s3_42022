@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 
 
 # Create your views here.
-class MyListMemberView(View):
+class MyListMemberView(UserPassesTestMixin, View):
     template_name = 'administration/home.html'
 
     def get(self, request, *args, **kwargs):
@@ -22,8 +22,11 @@ class MyListMemberView(View):
         }
         return render(request, self.template_name, context=data)
 
+    def test_func(self):
+        return 1 == 1
 
-class EditUserClassView(UpdateView):
+
+class EditUserClassView(UserPassesTestMixin, UpdateView):
     form_class = UserEditForm
     success_url = reverse_lazy('administration_user_list')
     success_message = "user was updated successfully ..."
@@ -60,7 +63,10 @@ class EditUserClassView(UpdateView):
             messages.error(request, f"Error occured")
             return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
 
-class DeleteUserClassView(View):
+    def test_func(self):
+        return 1 == 1
+
+class DeleteUserClassView(UserPassesTestMixin, View):
     model = Member
     success_url = reverse_lazy('administration_user_list')
     success_message = "user was successfully deleted"
@@ -84,7 +90,10 @@ class DeleteUserClassView(View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
-class GroupUserClassView(View):
+    def test_func(self):
+        return 1 == 1
+
+class GroupUserClassView(UserPassesTestMixin, View):
     template_name = 'administration/member_group.html'
 
     def get(self, request, *args, **kwargs):
@@ -104,7 +113,10 @@ class GroupUserClassView(View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
-class FlagUserClassView(View):
+    def test_func(self):
+        return 1 == 1
+
+class FlagUserClassView(UserPassesTestMixin, View):
     model = Member
     template_name = 'administration/home.html'
 
@@ -120,8 +132,11 @@ class FlagUserClassView(View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
+    def test_func(self):
+        return 1 == 1
 
-class WarnUserClassView(View):
+
+class WarnUserClassView(UserPassesTestMixin, View):
     model = Member
     template_name = 'administration/home.html'
 
@@ -137,7 +152,10 @@ class WarnUserClassView(View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
-class CreateUserClassView(View):
+    def test_func(self):
+        return 1 == 1
+
+class CreateUserClassView(UserPassesTestMixin, View):
     form_class = UserRegistrationForm
     success_url = reverse_lazy('administration_user_list')
     template_name = 'administration/member_create.html'
@@ -163,3 +181,6 @@ class CreateUserClassView(View):
             else:
                 messages.error(request, "Error occurred")
         return render(request, self.template_name, {'reg_form': reg_form})
+
+    def test_func(self):
+        return 1 == 1
