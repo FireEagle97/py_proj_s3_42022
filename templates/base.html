@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load static %}
-{% load auth_extras %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -45,7 +44,7 @@
       <li class="nav-item mr-2">
         <a class=" btn btn-secondary" href="{% url 'home' %}">Profile</a>
       </li>
-        {% if request.user|has_group:"Admin_super_grp" or request.user|has_group:"Admin_user_grp" %}
+
       <li class="nav-item mr-2">
         <a class=" btn btn-secondary" href="{% url 'administration_user_list' %}">Users List</a>
       </li>

@@ -14,7 +14,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 # A view of the list of people who have sent you messages
 class MessageListView(ListView):
-    template_name = 'messaging/home.html'
+    template_name = 'messaging/message_list.html'
     model = Message
 
     def get(self, req, *args, **kwargs):

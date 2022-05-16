@@ -13,7 +13,7 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 class MyListMemberView(LoginRequiredMixin, View):
-    template_name = 'administration/home.html'
+    template_name = 'administration/message_list.html'
 
     def get(self, request, *args, **kwargs):
         res = Member.objects.all().order_by('pk')
@@ -143,7 +143,7 @@ class FlagUserClassView(UserPassesTestMixin,LoginRequiredMixin, View):
 
 class WarnUserClassView(UserPassesTestMixin, LoginRequiredMixin, View):
     model = Member
-    template_name = 'administration/home.html'
+    template_name = 'administration/message_list.html'
 
     def get(self, request, *args, **kwargs):
         member_warned = get_object_or_404(Member, id=kwargs['pk'])
