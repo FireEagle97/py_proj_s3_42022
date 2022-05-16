@@ -33,8 +33,10 @@ class RegisterView(CreateView):
             if member_form.is_valid():
                 avatar = member_form.cleaned_data.get('avatar')
                 the_user = User.objects.get(username=username)
+                the_user.groups.set('1')
                 Member.objects.create(user=the_user,
-                                      avatar=avatar)
+                                      avatar=avatar,
+                                      group_id=1)
                 messages.success(request, "Account successfully created for {username}")
                 return redirect('member_login')
             else:

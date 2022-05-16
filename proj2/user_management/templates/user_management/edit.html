@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
 <section>
-    <h4> Edit profile </h4>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset>
-            {{ edit_form }}
-        </fieldset>
-        <fieldset>
-            {{ member_form }}
-        </fieldset>
-        <input type="submit" value=" Edit "/>
-    </form>
-
+    <div class="row">
+        <div class="col-sm-4">
+            <h1> Profile </h1>
+            <img src="{{ user.avatar.url }}">
+        </div>
+        <div class="col-sm-4">
+            <h4> Edit profile </h4>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table>
+                    {{ edit_form.as_table }}
+                </table>
+                <table>
+                    {{ member_form.as_table }}
+                </table>
+                <input type="submit" value=" Edit "/>
+            </form>
+        </div>
+    </div>
 </section>
 {% endblock content %}
