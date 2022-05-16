@@ -36,6 +36,7 @@
                 </div>
             </div>
 
+
             {% for usr in usr_list %}
 
             <div class="container" style="background-color: {% cycle '#f2f2f2' '#e6e6e6'  %}; outline: #d9d9d9 solid 2px">
@@ -49,7 +50,7 @@
                     <div class="col">
                         <p> {{ usr.user.username }} </p>
                     </div>
-                    <div class="col">
+                    <div class="col ">
                         <a href="{% url 'administration_edit_user' usr.id %}" class="btn btn-primary"> Edit Details </a>
                     </div>
                     {% if request.user != usr.user and usr.user|has_not_group:"Admin_super_grp" and request.user|has_group:"Admin_super_grp" or request.user|has_group:"Admin_user_grp" and usr.user|has_group:"Members"%}
