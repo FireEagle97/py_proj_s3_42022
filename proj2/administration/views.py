@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView
 from .models import Member
-from .forms import MemberForm, UserEditForm, UserRegistrationForm
+from .forms import MemberForm, UserEditForm, UserRegistrationForm, SelectGroupForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -12,11 +12,6 @@ from django.http import HttpResponseRedirect
 
 
 # Create your views here.
-def home(req):
-    template_name = 'administration/home.html'
-    return render(req, template_name)
-
-
 class MyListMemberView(View):
     template_name = 'administration/home.html'
 
@@ -96,8 +91,18 @@ class GroupUserClassView(View):
         member = get_object_or_404(Member, id=kwargs['pk'])
         choice_form = SelectGroupForm()
 
+        return render(request, self.template_name, {'choice_form': choice_form, 'member': member})
 
-        return render(request, self.template_name, {'choice_form': choice_form})
+    def post(self, request, *args, **kwargs):
+        member = get_object_or_404(Member, id=kwargs['pk'])
+        group_form = SelectGroupForm(request.POST)
+
+        group_list = request.POST.dict()
+        group_id = group_list.get('group')
+        member.group = Group.objects.get(pk=group_id)
+        member.save()
+
+        return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
 class FlagUserClassView(View):
     model = Member
@@ -115,42 +120,46 @@ class FlagUserClassView(View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
-# class FlagUserClassView(View):
-#     model = Member_Flag
-#     template_name = 'administration/home.html'
-#
-#     def get(self, request, *args, **kwargs):
-#         member_flagged = get_object_or_404(Member, id=kwargs['pk'])
-#         member_flag_count = Member_Flag.objects.filter(member=member_flagged).count()
-#
-#         if member_flag_count:
-#             member_flag = get_object_or_404(Member_Flag, member=member_flagged)
-#             if not member_flag.is_flagged:
-#                 member_flag.is_flagged = True
-#             else:
-#                 member_flag.is_flagged = False
-#         else:
-#             member_flag = Member_Flag(member=member_flagged, is_flagged=True)
-#         member_flag.save()
-#
-#         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
-
 
 class WarnUserClassView(View):
     model = Member
-    success_url = reverse_lazy('administration_user_list')
-    success_message = "user was successfully deleted"
-    template_name = "administration/member_delete.html"
-    extra_content = {
-        'form_legend': 'Delete a User',
-        'form_submit_btn': "Delete"
-    }
+    template_name = 'administration/home.html'
 
-    def post(self, request, *args, **kwargs):
-        member = get_object_or_404(Member, id=kwargs['pk'])
-        user = get_object_or_404(User, username=member.user.username)
+    def get(self, request, *args, **kwargs):
+        member_warned = get_object_or_404(Member, id=kwargs['pk'])
 
-        user.delete()
-        member.delete()
+        if not member_warned.is_warned:
+            member_warned.is_warned = True
+        else:
+            member_warned.is_warned = False
+
+        member_warned.save()
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+
+class CreateUserClassView(View):
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy('administration_user_list')
+    template_name = 'administration/member_create.html'
+
+    def get(self, request, *args, **kwargs):
+        reg_form = UserRegistrationForm()
+        member_form = MemberForm()
+        return render(request, self.template_name,
+                      {'reg_form': reg_form, 'member_form': member_form})
+
+    def post(self, request, *args, **kwargs):
+        reg_form = UserRegistrationForm(request.POST)
+        member_form = MemberForm(request.POST, request.FILES)
+        if reg_form.is_valid():
+            username = reg_form.cleaned_data.get('username')
+            reg_form.save()
+            if member_form.is_valid():
+                avatar = member_form.cleaned_data.get('avatar')
+                the_user = User.objects.get(username=username)
+                Member.objects.create(user=the_user,
+                                      avatar=avatar, group_id=1)
+                return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+            else:
+                messages.error(request, "Error occurred")
+        return render(request, self.template_name, {'reg_form': reg_form})
