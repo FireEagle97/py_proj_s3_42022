@@ -49,7 +49,7 @@
 <!--      </li>-->
 <!--    </ul>-->
     {% if user.is_authenticated %}
-    <form class="form-inline my-2 my-lg-0" method=POST action="{% url 'item_search' %}">
+    <form class="form-inline my-2 my-lg-0" method=POST action="{% url 'itemCatalog-item-search' %}">
       {% csrf_token %}
       <input class="form-control mr-sm-2" type="search" placeholder="Search" name="searched" aria-label="Search">
       <button class="btn btn-dark" type="submit">Search</button>

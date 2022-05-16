@@ -1,38 +1,29 @@
-{% extends 'base.html' %}
-    {% block content %}
-        <section class="info">
 
-       <div class="container-fluid mb-4">
-           <div class="row">
-               <div class=".col-6 .col-md-4">
-                    <a href="{% url 'item-create' %}">
-                        <button class="btn btn-secondary" id="add-btn">
-                            add an item
-                        </button>
-                    </a>
-               </div>
-<!--               <div class=".col-6 .col-md-4">-->
-<!--                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                        Filter by-->
-<!--                    </button>-->
-<!--                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                    <a class="dropdown-item" href="">filter1</a>-->
-<!--                    <a class="dropdown-item" href="#">Another action</a>-->
-<!--                    <a class="dropdown-item" href="#">Something else here</a>-->
-<!--                    </div>-->
-<!--               </div>-->
-               <div class=".col-6 .col-md-4">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Order by
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'item_order_desc_alph' %}">A-Z order</a>
-                    <a class="dropdown-item" href="{% url 'item_order_asc_alph' %}">Z-A order</a>
-                    <a class="dropdown-item" href="{% url 'item_order_desc_price' %}">Price Low-High</a>
-                    <a class="dropdown-item" href="{% url 'item_order_asc_price' %}">Price High-Low</a>
-                    </div>
-               </div>
-           </div>
+
+{% extends 'base.html' %}
+{% block content %}
+<section class="info">
+   <div class="container-fluid mb-4">
+      <div class="row">
+         <div class=".col-6 .col-md-4">
+            <a href="{% url 'itemCatalog-item-create' %}">
+            <button class="btn btn-secondary" id="add-btn">
+            add an item
+            </button>
+            </a>
+         </div>
+         <div class=".col-6 .col-md-4">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Order by
+            </button>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+               <a class="dropdown-item" href="{% url 'itemCatalog-item-order-desc-alph' %}">A-Z order</a>
+               <a class="dropdown-item" href="{% url 'itemCatalog-item-order-asc-alph' %}">Z-A order</a>
+               <a class="dropdown-item" href="{% url 'itemCatalog-item-order-desc-price' %}">Price Low-High</a>
+               <a class="dropdown-item" href="{% url 'itemCatalog-item-order-asc-price' %}">Price High-Low</a>
+            </div>
+         </div>
+      </div>
 
            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 justify-content-center">
 
@@ -42,24 +33,43 @@
             <div class="card" style="width: 18rem;">
               <img class="card-img-top" src={{ obj.image.url }} alt="Card image cap">
                   <div class="card-body">
-                      <a class="item-title" href="{% url 'itemCatalog_item_detail' obj.id %}">
+                      <a class="item-title" href="{% url 'itemCatalog-item-detail' obj.id %}">
                           <h5 class="item-title">{{obj.title}}</h5>
                             </a>
 
                     <p class="card-price">{{obj.price}}$</p>
-                      <p class="item-likes">likes: </p>
                       <p class="item-owner">added by: {{obj.owner.user}}</p>
                       {% if user == obj.owner.user %}
-                      <a href="{% url 'item-update' obj.id %}" class="btn btn-outline-secondary"> Update </a>
-                      <a href="{% url 'item-delete' obj.id %}" class="btn btn-outline-danger"> Delete </a>
+                      <a href="{% url 'itemCatalog-item-update' obj.id %}" class="btn btn-outline-secondary"> Update </a>
+                      <a href="{% url 'itemCatalog-item-delete' obj.id %}" class="btn btn-outline-danger"> Delete </a>
                       {% endif %}
-                  </div>
-                   <form class="flag-form" action="" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group" id=confirm-flag">
-                            <button type="submit" class="btn btn btn-outline-warning">Flag</button>
+                      <div class="row" id="btn-row">
+                      {% if obj.is_liked %}
+                        <div class="col-3">
+                            <a href="{% url 'itemCatalog-likeItem' obj.pk %}" class="btn btn-outline-primary">Like</a>
                         </div>
-                    </form>
+                      {% else %}
+                        <div class="col-3">
+                            <a href="{% url 'itemCatalog-likeItem' obj.pk %}" class="btn btn-primary">Unlike</a>
+                        </div>
+                      {% endif %}
+                       {% if obj.is_flagged %}
+                      <div class="col-3">
+                        <a href="{% url 'itemCatalog-flagItem' obj.pk %}" class="btn btn-outline-warning">Flag</a>
+                      </div>
+                      {% else %}
+                      <div class="col-3">
+                        <a href="{% url 'itemCatalog-flagItem' obj.pk %}" class="btn btn-outline-warning">UnFlag</a>
+                      </div>
+                      {% endif %}
+                      </div>
+                  </div>
+<!--                   <form class="flag-form" action="" method="POST">-->
+<!--                        {% csrf_token %}-->
+<!--                        <div class="form-group" id=confirm-flag">-->
+<!--                            <button type="submit" class="btn btn btn-outline-warning">Flag</button>-->
+<!--                        </div>-->
+<!--                    </form>-->
             </div>
 
             </div>
@@ -69,22 +79,21 @@
 
        </div>
 
-      <div class="pagination justify-content-center">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
+   <div class="pagination justify-content-center">
+      <span class="step-links">
+      {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+      <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+      </span>
+   </div>
+</section>
+{% endblock content %}>
 
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-      </div>
-            </section>
-    {% endblock content %}>

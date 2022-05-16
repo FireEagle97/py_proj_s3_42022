@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Item, Review
+from .models import Item, Review, Flag
 
 
 # Create an Item form
@@ -17,12 +17,11 @@ class ItemForm(ModelForm):
             'address': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
 
-
         }
 
 
 class ReviewForm(ModelForm):
     class Meta:
         model = Review
-        fields = ('rate','comment')
+        fields = ('rate', 'comment')
 

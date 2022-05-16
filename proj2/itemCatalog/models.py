@@ -21,7 +21,8 @@ class Item(models.Model):
     status = models.CharField(max_length=10, choices=status_Choices, default="New")
     image = models.ImageField(upload_to='item_pics/',
                               default='item_default_image.jpg')
-
+    is_liked = models.BooleanField(default=False)
+    is_flagged = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.title[:15]}"
@@ -37,6 +38,10 @@ class Review(models.Model):
     comment = models.TextField(max_length=250, default='')
     created_date = models.DateTimeField(auto_now_add=True)
 
+
+class Flag(models.Model):
+    flagger = models.ForeignKey(Member, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 
 # needs to divide Review to rate and comment
