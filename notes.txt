@@ -1,4 +1,0 @@
-for adding an update item button
-<td align='right'>
-	<a href='{% url 'update_item' item.id %}"> Update </a>
-</td>
