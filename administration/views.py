@@ -13,12 +13,12 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 def home(req):
-    template_name = 'administration/home.html'
+    template_name = 'administration/item_list.html'
     return render(req, template_name)
 
 
 class MyListMemberView(View):
-    template_name = 'administration/home.html'
+    template_name = 'administration/item_list.html'
 
     def get(self, request, *args, **kwargs):
         res = Member.objects.all().order_by('pk')
@@ -101,7 +101,7 @@ class GroupUserClassView(View):
 
 class FlagUserClassView(View):
     model = Member
-    template_name = 'administration/home.html'
+    template_name = 'administration/item_list.html'
 
     def get(self, request, *args, **kwargs):
         member_flagged = get_object_or_404(Member, id=kwargs['pk'])
@@ -117,7 +117,7 @@ class FlagUserClassView(View):
 
 # class FlagUserClassView(View):
 #     model = Member_Flag
-#     template_name = 'administration/home.html'
+#     template_name = 'administration/item_list.html'
 #
 #     def get(self, request, *args, **kwargs):
 #         member_flagged = get_object_or_404(Member, id=kwargs['pk'])

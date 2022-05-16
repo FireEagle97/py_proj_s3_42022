@@ -1,0 +1,24 @@
+.msg_header {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.msg_header:hover {
+    background-color: rgb(55, 55, 55);
+    transition:500ms;
+}
+
+.msg_body {
+    background-color: darkgrey;
+    padding:5px;
+    word-wrap:normal;
+    overflow: scroll;
+    transition:400ms;
+}

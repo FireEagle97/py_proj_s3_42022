@@ -7,5 +7,4 @@ from .models import Message
 class MessageForm(ModelForm):
     class Meta:
         model = Message
-        fields = ()
-        # fields = ('recipient_id', 'msg_text')
+        fields = ('recipient', 'msg_text')

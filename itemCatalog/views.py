@@ -16,7 +16,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 
 # class MyListItemsView(View):
-#     template_name = 'itemCatalog/home.html'
+#     template_name = 'itemCatalog/item_list.html'
 #     paginate_by = 5
 #
 #     def get(self, req, *args, **kwargs):
