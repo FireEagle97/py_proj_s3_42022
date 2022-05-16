@@ -6,10 +6,10 @@ from administration.models import Member
 
 
 class Message(models.Model):
-    sender = models.ForeignKey(Member, on_delete=models.CASCADE)
-    sender_id = models.IntegerField
-    recipient = models.ForeignKey(Member, on_delete=models.CASCADE)
-    recipient_id = models.IntegerField
+    sender = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="sender")
+    #sender_id = models.IntegerField
+    recipient = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="recipient")
+    #recipient_id = models.IntegerField
     msg_text = models.CharField(max_length=200, help_text="Enter your message")
     send_date = models.DateTimeField("Sent on")
     # potentially use dt.now for dates upon instantiation
