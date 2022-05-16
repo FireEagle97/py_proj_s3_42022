@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView
 from .models import Member
-from .forms import MemberForm, UserEditForm, UserRegistrationForm
+from .forms import MemberForm, UserEditForm, UserRegistrationForm, SelectGroupForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -12,23 +12,25 @@ from django.http import HttpResponseRedirect
 
 
 # Create your views here.
-def home(req):
-    template_name = 'administration/item_list.html'
-    return render(req, template_name)
-
-
-class MyListMemberView(View):
-    template_name = 'administration/item_list.html'
+class MyListMemberView(LoginRequiredMixin, View):
+    template_name = 'administration/home.html'
 
     def get(self, request, *args, **kwargs):
         res = Member.objects.all().order_by('pk')
         data = {
             'usr_list': res
         }
-        return render(request, self.template_name, context=data)
 
+        if request.user.is_authenticated:
+            group_super = Group.objects.get(name="Admin_super_grp")
+            group_user = Group.objects.get(name="Admin_user_grp")
+            user_to_test = request.user
+            if (group_super in user_to_test.groups.all() or group_user in user_to_test.groups.all()):
+                return render(request, self.template_name, context=data)
+            else:
+                return HttpResponseRedirect(reverse_lazy('home'))
 
-class EditUserClassView(UpdateView):
+class EditUserClassView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     form_class = UserEditForm
     success_url = reverse_lazy('administration_user_list')
     success_message = "user was updated successfully ..."
@@ -65,7 +67,10 @@ class EditUserClassView(UpdateView):
             messages.error(request, f"Error occured")
             return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
 
-class DeleteUserClassView(View):
+    def test_func(self):
+        return 1 == 1
+
+class DeleteUserClassView(UserPassesTestMixin,LoginRequiredMixin, View):
     model = Member
     success_url = reverse_lazy('administration_user_list')
     success_message = "user was successfully deleted"
@@ -89,17 +94,34 @@ class DeleteUserClassView(View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
-class GroupUserClassView(View):
+    def test_func(self):
+        return 1 == 1
+
+class GroupUserClassView(UserPassesTestMixin,LoginRequiredMixin, View):
     template_name = 'administration/member_group.html'
 
     def get(self, request, *args, **kwargs):
         member = get_object_or_404(Member, id=kwargs['pk'])
         choice_form = SelectGroupForm()
 
+        return render(request, self.template_name, {'choice_form': choice_form, 'member': member})
 
-        return render(request, self.template_name, {'choice_form': choice_form})
+    def post(self, request, *args, **kwargs):
+        member = get_object_or_404(Member, id=kwargs['pk'])
+        group_form = SelectGroupForm(request.POST)
 
-class FlagUserClassView(View):
+        group_list = request.POST.dict()
+        group_id = group_list.get('group')
+        member.group = Group.objects.get(pk=group_id)
+        member.user.groups.set(group_id)
+        member.save()
+
+        return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+
+    def test_func(self):
+        return 1 == 1
+
+class FlagUserClassView(UserPassesTestMixin,LoginRequiredMixin, View):
     model = Member
     template_name = 'administration/item_list.html'
 
@@ -115,6 +137,7 @@ class FlagUserClassView(View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
+<<<<<<< HEAD:administration/views.py
 # class FlagUserClassView(View):
 #     model = Member_Flag
 #     template_name = 'administration/item_list.html'
@@ -137,20 +160,58 @@ class FlagUserClassView(View):
 
 
 class WarnUserClassView(View):
+=======
+    def test_func(self):
+        return 1 == 1
+
+
+class WarnUserClassView(UserPassesTestMixin, LoginRequiredMixin, View):
+>>>>>>> 4de322a09e75190c643256928e5084ec2af18ded:proj2/administration/views.py
     model = Member
-    success_url = reverse_lazy('administration_user_list')
-    success_message = "user was successfully deleted"
-    template_name = "administration/member_delete.html"
-    extra_content = {
-        'form_legend': 'Delete a User',
-        'form_submit_btn': "Delete"
-    }
+    template_name = 'administration/home.html'
 
-    def post(self, request, *args, **kwargs):
-        member = get_object_or_404(Member, id=kwargs['pk'])
-        user = get_object_or_404(User, username=member.user.username)
+    def get(self, request, *args, **kwargs):
+        member_warned = get_object_or_404(Member, id=kwargs['pk'])
 
-        user.delete()
-        member.delete()
+        if not member_warned.is_warned:
+            member_warned.is_warned = True
+        else:
+            member_warned.is_warned = False
+
+        member_warned.save()
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+
+    def test_func(self):
+        return 1 == 1
+
+class CreateUserClassView(UserPassesTestMixin, LoginRequiredMixin, View):
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy('administration_user_list')
+    template_name = 'administration/member_create.html'
+
+    def get(self, request, *args, **kwargs):
+        reg_form = UserRegistrationForm()
+        member_form = MemberForm()
+        return render(request, self.template_name,
+                      {'reg_form': reg_form, 'member_form': member_form})
+
+    def post(self, request, *args, **kwargs):
+        reg_form = UserRegistrationForm(request.POST)
+        member_form = MemberForm(request.POST, request.FILES)
+        if reg_form.is_valid():
+            username = reg_form.cleaned_data.get('username')
+            reg_form.save()
+            if member_form.is_valid():
+                avatar = member_form.cleaned_data.get('avatar')
+                the_user = User.objects.get(username=username)
+                the_user.groups.set('1')
+                Member.objects.create(user=the_user,
+                                      avatar=avatar, group_id=1)
+                return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+            else:
+                messages.error(request, "Error occurred")
+        return render(request, self.template_name, {'reg_form': reg_form})
+
+    def test_func(self):
+        return 1 == 1
