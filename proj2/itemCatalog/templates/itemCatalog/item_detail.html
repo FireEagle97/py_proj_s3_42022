@@ -8,7 +8,7 @@
             </div>
                 <div class="col">
                     <h2>{{item.title}}</h2>
-                <section>About this item:</section>
+                <div>About this item:</div>
                       <ul>
                           <li>
                               {{ item.description }}
@@ -26,8 +26,11 @@
                               Status: {{item.status}}
                           </li>
                       </ul>
-
-            <section class="col text-center">
+                </div>
+          </div>
+            <br>
+            <div class="row">
+            <div class="col text-center">
                 <form class="rate-form" action="" method="POST" id="{{object.id}}">
                     {% csrf_token %}
                     {{ review_form.as_p }}
@@ -45,19 +48,25 @@
                         <button type="submit" class= "btn btn-outline-secondary"> Post </button>
                     </div>
                 </form>
-            </section>
-            <br>
-            <div>
-                {{ comments_list }}
-                {% for comment in object_list %}
-                    <p>
-                        {{ comment.comment }}
-                    </p>
-                {% endfor %}
             </div>
-        </section>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                Comments:
+            <ul class="list-group">
+                {% for obj in item_reviews %}
+                <li class="list-group-item">
 
-        </div>
+                         {{ obj.comment }}
+                        <br>
+                    <p id="comment_author">
+                        created by : {{obj.author.user}}
+                    </p>
+
+                    </li>
+            </ul>
+                {% endfor %}
+                </div>
             </div>
         </div>
     {% endblock content %}

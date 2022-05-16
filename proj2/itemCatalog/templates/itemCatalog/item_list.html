@@ -54,9 +54,17 @@
                       <a href="{% url 'item-delete' obj.id %}" class="btn btn-outline-danger"> Delete </a>
                       {% endif %}
                   </div>
+                   <form class="flag-form" action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group" id=confirm-flag">
+                            <button type="submit" class="btn btn btn-outline-warning">Flag</button>
+                        </div>
+                    </form>
             </div>
+
             </div>
             {% endfor %}
+
            </div>
 
        </div>

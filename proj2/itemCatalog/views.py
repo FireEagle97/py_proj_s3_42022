@@ -40,21 +40,13 @@ class ItemReviewDetail(FormMixin, DetailView):
         the_item = get_object_or_404(Item, id=kwargs.get('pk'))
         review_form = ReviewForm
         item_reviews = Review.objects.filter(item_id=the_item.id)
-
         context = {
             'item': the_item,
             'review_form': review_form,
             'item_reviews': item_reviews,
+            'item_flag_text': "flag",
         }
         return render(request, self.template_name, context)
-
-    def get_reviews(self, req, *args, **kwargs):
-        the_item = get_object_or_404(Item, id=kwargs.get('pk'))
-        res = Review.objects.filter(item=the_item)
-        data = {'comments_list': "Comments: ",
-                'object_list': res,
-                }
-        return render(req, self.template_name, context=data)
 
     def post(self, request, **kwargs):
         # if not request.user.is_authenticated:

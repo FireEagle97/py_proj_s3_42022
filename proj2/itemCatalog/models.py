@@ -22,6 +22,7 @@ class Item(models.Model):
     image = models.ImageField(upload_to='item_pics/',
                               default='item_default_image.jpg')
 
+
     def __str__(self):
         return f"{self.title[:15]}"
 
