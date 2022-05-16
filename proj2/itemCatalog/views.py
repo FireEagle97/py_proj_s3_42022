@@ -11,23 +11,11 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 
 from administration.models import Member
-from .models import Item, Review, Flag
+from .models import Item, Review
 from .forms import ItemForm, ReviewForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
-
-
-# class MyListItemsView(View):
-#     template_name = 'itemCatalog/home.html'
-#     paginate_by = 5
-#
-#     def get(self, req, *args, **kwargs):
-#         res = Item.objects.all()
-#         data = {'page_title': "List Items page",
-#                 'object_list': res,
-#                 }
-#         return render(req, self.template_name, context=data)
 
 
 class MyItemDetail(DetailView):
@@ -82,8 +70,6 @@ class ItemReviewDetail(FormMixin, DetailView):
         return render(request, self.template_name, context)
 
     def post(self, request, **kwargs):
-        # if not request.user.is_authenticated:
-        #     return HttpResponseForbidden()
         the_item = get_object_or_404(Item, id=kwargs.get('pk'))
         review_form = ReviewForm(request.POST)
         context = {
@@ -136,33 +122,6 @@ class OrderItemsByPriceAsc(ListView):
     template_name = 'itemCatalog/item_list.html'
     paginate_by = 8
     ordering = ['-price']
-
-    # def get(self, req, *args, **kwargs):
-    #     res = Item.objects.all()
-    #     data = {'page_title': "List Items page",
-    #             'object_list': res,
-    #             }
-    #     return render(req, self.template_name, context=data)
-
-    # def paginator(self, req):
-    #     item_list = Item.objects.all()
-    #     p = Paginator(Item.objects.all(), 5)
-    #     page = req.GET.get('page')
-    #     items = p.get_page(page)
-    #     return render(req, self.template_name,
-    #                   {
-    #                       'item_list': item_list,
-    #                       'items': items
-    #                   })
-
-
-# class MyItemDetailView(View):
-#     model = Item
-#     template_name = 'itemCatalog/item_detail.html'
-#
-#     def get(self, req, **kwargs):
-#         my_item = get_object_or_404(Item, id=kwargs['id'])
-#         return render(req, self.template_name, {'i': my_item})
 
 
 class CreateItemClassView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
