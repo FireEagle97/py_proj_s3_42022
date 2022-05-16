@@ -31,4 +31,11 @@ class UserRegistrationForm(UserCreationForm):
                   'last_name', 'first_name']
 #
 # class SelectGroupForm(ModelForm):
+class SelectGroupForm(ModelForm):
+    class Meta:
+        model = Member
+        fields = ['group']
 
+        widgets = {
+            'group': forms.Select(attrs={'class': 'form-control'}),
+        }

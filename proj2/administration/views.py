@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView
 from .models import Member
-from .forms import MemberForm, UserEditForm, UserRegistrationForm
+from .forms import MemberForm, UserEditForm, UserRegistrationForm, SelectGroupForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -12,11 +12,6 @@ from django.http import HttpResponseRedirect
 
 
 # Create your views here.
-def home(req):
-    template_name = 'administration/home.html'
-    return render(req, template_name)
-
-
 class MyListMemberView(View):
     template_name = 'administration/home.html'
 
@@ -96,8 +91,18 @@ class GroupUserClassView(View):
         member = get_object_or_404(Member, id=kwargs['pk'])
         choice_form = SelectGroupForm()
 
+        return render(request, self.template_name, {'choice_form': choice_form, 'member': member})
 
-        return render(request, self.template_name, {'choice_form': choice_form})
+    def post(self, request, *args, **kwargs):
+        member = get_object_or_404(Member, id=kwargs['pk'])
+        group_form = SelectGroupForm(request.POST)
+
+        group_list = request.POST.dict()
+        group_id = group_list.get('group')
+        member.group = Group.objects.get(pk=group_id)
+        member.save()
+
+        return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
 class FlagUserClassView(View):
     model = Member
@@ -114,26 +119,6 @@ class FlagUserClassView(View):
         member_flagged.save()
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
-
-# class FlagUserClassView(View):
-#     model = Member_Flag
-#     template_name = 'administration/home.html'
-#
-#     def get(self, request, *args, **kwargs):
-#         member_flagged = get_object_or_404(Member, id=kwargs['pk'])
-#         member_flag_count = Member_Flag.objects.filter(member=member_flagged).count()
-#
-#         if member_flag_count:
-#             member_flag = get_object_or_404(Member_Flag, member=member_flagged)
-#             if not member_flag.is_flagged:
-#                 member_flag.is_flagged = True
-#             else:
-#                 member_flag.is_flagged = False
-#         else:
-#             member_flag = Member_Flag(member=member_flagged, is_flagged=True)
-#         member_flag.save()
-#
-#         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
 
 class WarnUserClassView(View):
