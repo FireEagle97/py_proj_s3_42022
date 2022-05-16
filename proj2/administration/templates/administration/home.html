@@ -1,25 +1,107 @@
 {% extends 'base.html' %}
     {% block content %}
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+    {% load auth_extras %}
+        <div class="row flex-column my-4">
+
+            <div class="ml-5 mb-4">
+                <a href="{% url 'administration_create_user' %}" class="btn btn-outline-primary"> Create New User </a>
+            </div>
+
+            <div class="container" style="background-color: {% cycle '#f2f2f2' '#e6e6e6'  %}; outline: #d9d9d9 solid 2px">
+                <div class="row my-2">
+                    <div class="col mx-0">
+                        <h6>User Id</h6>
+                    </div>
+                    <div class="col">
+                        <h6>Group</h6>
+                    </div>
+                    <div class="col">
+                        <h6>Username</h6>
+                    </div>
+                    <div class="col">
+                        <p></p>
+                    </div>
+                    <div class="col">
+
+                    </div>
+                    <div class="col">
+
+                    </div>
+                    <div class="col">
+
+                    </div>
+                    <div class="col">
+
+                    </div>
+                </div>
+            </div>
+
             {% for usr in usr_list %}
 
-        <div class="col-auto">
-            <div class="card" style="width: 18rem;">
-              <img class="card-img-top" src={{ usr.avatar.url }} alt="Avatar">
-                  <div class="card-body">
-                      <p>{{ usr.id }}</p>
-                      <p>{{ usr.group.name }} </p>
-                      <p>{{ usr.user.first_name }} {{ usr.user.last_name }}</p>
-                      <p>GROUP</p>
-                      <a href="{% url 'administration_edit_user' usr.id %}" class="btn btn-outline-primary"> Edit Details </a>
-                      <a href="{% url 'administration_group_user' usr.id %}" class="btn btn-outline-success"> Modify Groups </a>
-                      <a href="{% url 'administration_edit_user' usr.id %}" class="btn btn-outline-warning"> Flag User </a>
-                      <a href="{% url 'administration_edit_user' usr.id %}" class="btn btn-outline-warning"> Warn User </a>
-                      <a href="{% url 'administration_delete_user' usr.id %}" class="btn btn-outline-danger"> Delete User </a>
-<!--                          <p class="card-text">{{obj.description}}</p>-->
-<!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
-                  </div>
-            </div>
+            <div class="container" style="background-color: {% cycle '#f2f2f2' '#e6e6e6'  %}; outline: #d9d9d9 solid 2px">
+                <div class="row my-2">
+                    <div class="col mx-0">
+                        <p> {{ usr.id }} </p>
+                    </div>
+                    <div class="col">
+                        <p style="color: #4da0ff;"> {{ usr.group.name }} </p>
+                    </div>
+                    <div class="col">
+                        <p> {{ usr.user.username }} </p>
+                    </div>
+                    <div class="col">
+                        <a href="{% url 'administration_edit_user' usr.id %}" class="btn btn-primary"> Edit Details </a>
+                    </div>
+                    {% if request.user != usr.user and usr.user|has_not_group:"Admin_super_grp" and request.user|has_group:"Admin_super_grp" or request.user|has_group:"Admin_user_grp" and usr.user|has_group:"Members"%}
+                    <div class="col">
+                        <a href="{% url 'administration_group_user' usr.id %}" class="btn btn-success"> Modify Groups </a>
+                    </div>
+                    {% else %}
+                    <div class="col">
+
+                    </div>
+                    {% endif %}
+
+                    {% if request.user != usr.user and usr.user|has_not_group:"Admin_super_grp" and request.user|has_group:"Admin_super_grp" or request.user|has_group:"Admin_user_grp" and usr.user|has_group:"Members"%}
+                        {% if usr.is_flagged %}
+                        <div class="col">
+                            <a href="{% url 'administration_flag_user' usr.id %}" class="btn btn-warning" style="background-color: orange"> Unflag User </a>
+                        </div>
+                        {% else %}
+                        <div class="col">
+                            <a href="{% url 'administration_flag_user' usr.id %}" class="btn btn-warning"> Flag User </a>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="col">
+
+                        </div>
+                    {% endif %}
+                    {% if request.user != usr.user and usr.user|has_not_group:"Admin_super_grp" and request.user|has_group:"Admin_super_grp" or request.user|has_group:"Admin_user_grp" and usr.user|has_group:"Members"%}
+                        {% if usr.is_warned %}
+                        <div class="col">
+                            <a href="{% url 'administration_warn_user' usr.id %}" class="btn btn-warning" style="background-color: orange"> Unwarn User </a>
+                        </div>
+                        {% else %}
+                        <div class="col">
+                            <a href="{% url 'administration_warn_user' usr.id %}" class="btn btn-warning"> Warn User </a>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="col">
+
+                        </div>
+                    {% endif %}
+                    {% if request.user != usr.user and usr.user|has_not_group:"Admin_super_grp" and request.user|has_group:"Admin_super_grp" or request.user|has_group:"Admin_user_grp" and usr.user|has_group:"Members"%}
+                    <div class="col">
+                         <a href="{% url 'administration_delete_user' usr.id %}" class="btn btn-danger"> Delete User </a>
+                    </div>
+                    {% else %}
+                    <div class="col">
+
+                    </div>
+                    {% endif %}
+                </div>
             </div>
 
             {% endfor %}

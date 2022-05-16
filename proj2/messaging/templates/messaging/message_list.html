@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <!-- dont use table btw, this is just for demonstration -->
+<!--    <table class="table my-5">-->
+      <button class="btn btn-secondary">
+           Send a message
+       </button>
+        <h3 class="no_msg_header">You have no messages.</h3>
+<!--       <thead>&ndash;&gt;-->
+<!--        <tr>-->
+<!--            <th>-->
+<!--                Sender-->
+<!--            </th>-->
+<!--            <th>-->
+<!--                Recipient-->
+<!--            </th>-->
+<!--            <th>-->
+<!--                Message-->
+<!--            </th>-->
+<!--            <th>-->
+<!--                Date sent-->
+<!--            </th>-->
+<!--            <th>-->
+<!--                Unread-->
+<!--            </th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        {% for message_obj in object_list %}-->
+<!--        <tr>-->
+<!--            <td>-->
+<!--                {{message_obj.sender}}-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                {{message_obj.recipient}}-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                {{message_obj.msg_text}}-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                {{message_obj.send_date}}-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                {% if message_obj.unread == true %}-->
+<!--                    <b>Unread</b>-->
+<!--                {% else %}-->
+<!--                    Read-->
+<!--                {% endif %}-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        {% endfor %}-->
+<!--        </tbody>-->
+<!--    </table>-->
+    <ul>
+    {% for message_obj in object_list %}
+        <li class="msg">
+            <p class="msg_date">{{message_obj.send_date}}</p>
+            <button class="msg_header">
+                Sent by {{message_obj.sender}} to {{message_obj.recipient}}
+            </button>
+            <div class="msg_body">
+                <p>{{message_obj.send_date}}</p>
+                <p>{{message_obj.unread}}</p>
+                <button class="btn btn-secondary">Reply</button>
+            </div>
+        </li>
+        {%endfor%}
+    </ul>
+</div>
+{% endblock content %}

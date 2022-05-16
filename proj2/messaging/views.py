@@ -31,3 +31,14 @@ class MessageListView(ListView):
 # After clicking on somebody on the page, a view of messages between each other
 class FullMessageView(ListView):
     model = Message
+
+
+class CreateMessageClassView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Message
+    form_class = MessageForm
+    success_url = reverse_lazy('home')
+    success_message = "item was created successfully ..."
+    extra_context = {
+        'form_legend': 'Create a New Item',
+        'form_submit_btn': "NEW Item!"
+    }

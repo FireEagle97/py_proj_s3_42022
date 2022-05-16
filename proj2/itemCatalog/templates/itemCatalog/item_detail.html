@@ -4,41 +4,57 @@
         <div class="container" id="item-container">
           <div class="row">
             <div class="col">
-               <img class="card-img" src="{{ object.image.url }}" alt="Card image cap">
+               <img class="card-img" src="{{ item.image.url }}" alt="Card image cap">
             </div>
                 <div class="col">
-                    <h2>{{object.title}}</h2>
+                    <h2>{{item.title}}</h2>
                 <section>About this item:</section>
                       <ul>
                           <li>
-                              {{ object.description }}
+                              {{ item.description }}
                           </li>
                           <li>
-                              genre: {{object.genre}}
+                              genre: {{item.genre}}
                           </li>
                           <li>
-                              Price: {{object.price}}$
+                              Price: {{item.price}}$
                           </li>
                           <li>
-                              Address: {{object.address}}
+                              Address: {{item.address}}
                           </li>
                           <li>
-                              Status: {{object.status}}
+                              Status: {{item.status}}
                           </li>
                       </ul>
 
             <section class="col text-center">
-                <span class="fa fa-star fa-2x checked" id="first"></span>
-                <span class="fa fa-star fa-2x checked" id="second"></span>
-                <span class="fa fa-star fa-2x checked" id="third"></span>
-                <span class="fa fa-star fa-2x" id="fourth"></span>
-                <span class="fa fa-star fa-2x" id="fifth"></span>
+                <form class="rate-form" action="" method="POST" id="{{object.id}}">
+                    {% csrf_token %}
+                    {{ review_form.as_p }}
+<!--                    <button class="fa fa-star fa-2x rev-btn" id="first"></button>-->
+<!--                    <button class="fa fa-star fa-2x rev-btn" id="second"></button>-->
+<!--                    <button class="fa fa-star fa-2x rev-btn" id="third"></button>-->
+<!--                    <button class="fa fa-star fa-2x rev-btn" id="fourth"></button>-->
+<!--                    <button class="fa fa-star fa-2x rev-btn" id="fifth"></button>-->
+<!--                     <div class="form-group">-->
+<!--                    <textarea class="form-control"  rows="3">-->
+
+<!--                    </textarea>-->
+<!--                    </div>-->
+                    <div class="form-group" id=confirm-box">
+                        <button type="submit" class= "btn btn-outline-secondary"> Post </button>
+                    </div>
+                </form>
             </section>
             <br>
-            <div id="confirm-box"></div>
-
-                <section>{{object.rate}}</section>
-<!--            <img class="card-img-top" src={{ object.image.url }} alt="Card image cap">-->
+            <div>
+                {{ comments_list }}
+                {% for comment in object_list %}
+                    <p>
+                        {{ comment.comment }}
+                    </p>
+                {% endfor %}
+            </div>
         </section>
 
         </div>
