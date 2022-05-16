@@ -189,3 +189,10 @@ class ListSearchedItems(LoginRequiredMixin, ListView):
         else:
             return render(req, self.template_name, {'searched': "No results found",
                                                     })
+
+
+def contact(req):
+    data = {'page_title': "Contact page",
+            'greet': "Contact Info Page",
+            }
+    return render(req, 'itemCatalog/contact.html', context=data)
