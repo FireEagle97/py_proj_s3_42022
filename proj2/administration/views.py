@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView
 from pyexpat.errors import messages
-
 from .models import Member
 from .forms import MemberForm, UserEditForm, UserRegistrationForm, SelectGroupForm
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -11,6 +10,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
+
 
 
 # Create your views here.
@@ -230,3 +230,41 @@ class CreateUserClassView(LoginRequiredMixin, View):
             else:
                 messages.error(request, "Error occurred")
         return render(request, self.template_name, {'reg_form': reg_form})
+
+# ---------- Rest API -----------
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.decorators import login_required
+from .serializer import MemberClassSerializer, UserClassSerializer
+
+@api_view(['GET'])
+@login_required()
+def api_get_all_member(request):
+    members = Member.objects.all()
+    obj_serializer = MemberClassSerializer(members, many=True)
+
+    if request.user.is_authenticated:
+        group_super = Group.objects.get(name="Admin_super_grp")
+        group_user = Group.objects.get(name="Admin_user_grp")
+        user_to_test = request.user
+        if (group_super in user_to_test.groups.all() or group_user in user_to_test.groups.all()):
+            return Response(obj_serializer.data)
+    return HttpResponseRedirect(reverse_lazy('home'))
+
+
+
+@api_view(['GET'])
+@login_required()
+def api_get_all_user(request):
+    users = User.objects.all()
+    obj_serializer = UserClassSerializer(users, many=True)
+
+    if request.user.is_authenticated:
+        group_super = Group.objects.get(name="Admin_super_grp")
+        group_user = Group.objects.get(name="Admin_user_grp")
+        user_to_test = request.user
+        if (group_super in user_to_test.groups.all() or group_user in user_to_test.groups.all()):
+            return Response(obj_serializer.data)
+    return HttpResponseRedirect(reverse_lazy('home'))
