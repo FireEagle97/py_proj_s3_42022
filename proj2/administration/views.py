@@ -17,7 +17,7 @@ from django.http import HttpResponseRedirect
 #     template_name = 'administration/homecopy.html'
 
 class MyListMemberView(LoginRequiredMixin, View):
-    template_name = 'administration/message_list.html'
+    template_name = 'administration/messagin_list.html'
 
 
     def get(self, request, *args, **kwargs):
@@ -148,7 +148,7 @@ class FlagUserClassView(UserPassesTestMixin,LoginRequiredMixin, View):
 
 class WarnUserClassView(UserPassesTestMixin, LoginRequiredMixin, View):
     model = Member
-    template_name = 'administration/message_list.html'
+    template_name = 'administration/messagin_list.html'
 
     def get(self, request, *args, **kwargs):
         member_warned = get_object_or_404(Member, id=kwargs['pk'])

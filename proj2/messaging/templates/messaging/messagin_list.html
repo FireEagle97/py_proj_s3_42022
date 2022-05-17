@@ -3,10 +3,12 @@
 <div class="container">
     <!-- dont use table btw, this is just for demonstration -->
 <!--    <table class="table my-5">-->
+        <a href="{% url 'message-create' %}">
       <button class="btn btn-secondary">
            Send a message
        </button>
-        <h3 class="no_msg_header">You have no messages.</h3>
+        </a>
+        <h3 class="no_msg_header" style="display:block">You have no messages.</h3>
 <!--       <thead>&ndash;&gt;-->
 <!--        <tr>-->
 <!--            <th>-->
