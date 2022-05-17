@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
     {% block content %}
-<!--             <div class="card" style="width: 18rem;">-->
         <div class="container" id="item-container">
           <div class="row">
             <div class="col">
@@ -8,7 +7,7 @@
             </div>
                 <div class="col">
                     <h2>{{item.title}}</h2>
-                <section>About this item:</section>
+                <div>About this item:</div>
                       <ul>
                           <li>
                               {{ item.description }}
@@ -26,38 +25,40 @@
                               Status: {{item.status}}
                           </li>
                       </ul>
+                </div>
+          </div>
+            <br>
+            <hr>
 
-            <section class="col text-center">
+            <br>
+            <div class="row">
+            <div class="col text-center">
                 <form class="rate-form" action="" method="POST" id="{{object.id}}">
                     {% csrf_token %}
                     {{ review_form.as_p }}
-<!--                    <button class="fa fa-star fa-2x rev-btn" id="first"></button>-->
-<!--                    <button class="fa fa-star fa-2x rev-btn" id="second"></button>-->
-<!--                    <button class="fa fa-star fa-2x rev-btn" id="third"></button>-->
-<!--                    <button class="fa fa-star fa-2x rev-btn" id="fourth"></button>-->
-<!--                    <button class="fa fa-star fa-2x rev-btn" id="fifth"></button>-->
-<!--                     <div class="form-group">-->
-<!--                    <textarea class="form-control"  rows="3">-->
-
-<!--                    </textarea>-->
-<!--                    </div>-->
                     <div class="form-group" id=confirm-box">
                         <button type="submit" class= "btn btn-outline-secondary"> Post </button>
                     </div>
                 </form>
-            </section>
-            <br>
-            <div>
-                {{ comments_list }}
-                {% for comment in object_list %}
-                    <p>
-                        {{ comment.comment }}
-                    </p>
-                {% endfor %}
             </div>
-        </section>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                <h3>Comments:</h3>
+            <ul class="list-group">
+                {% for obj in item_reviews %}
+                <li class="list-group-item">
 
-        </div>
+                         {{ obj.comment }}
+                        <br>
+                    <p id="comment_author">
+                        created by : {{obj.author.user}}
+                    </p>
+
+                    </li>
+            </ul>
+                {% endfor %}
+                </div>
             </div>
         </div>
     {% endblock content %}

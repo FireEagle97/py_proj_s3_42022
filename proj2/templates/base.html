@@ -30,38 +30,23 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
     <ul class="navbar-nav mr-auto">
-<!--      <li class="nav-item active">-->
-<!--        <a class="nav-link" href="listItem link">Home <span class="sr-only">(current)</span></a>-->
-<!--      </li>-->
       <li class="nav-item mr-2">
         <a class=" btn btn-secondary" href="{% url 'home' %}">Shop</a>
       </li>
       <li class="nav-item mr-2">
         <a class=" btn btn-secondary" href="{% url 'home' %}">Messages</a>
       </li>
-<!--      <li class="nav-item mr-2">-->
-<!--        <a class=" btn btn-secondary" href="{% url 'home' %}">Profile</a>-->
-<!--      </li>-->
         {% if request.user|has_group:"Admin_super_grp" or request.user|has_group:"Admin_user_grp" %}
       <li class="nav-item mr-2">
         <a class=" btn btn-secondary" href="{% url 'administration_user_list' %}">Users List</a>
       </li>
         {% endif %}
-<!--      <li class="nav-item dropdown">-->
-<!--        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--          Dropdown-->
-<!--        </a>-->
-<!--        <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--          <a class="dropdown-item" href="#">Action</a>-->
-<!--          <a class="dropdown-item" href="#">Another action</a>-->
-<!--          <div class="dropdown-divider"></div>-->
-<!--          <a class="dropdown-item" href="#">Something else here</a>-->
-<!--        </div>-->
-<!--      </li>-->
     </ul>
+
     {% if user.is_authenticated %}
-    <form class="form-inline my-2 my-lg-0" method=POST action="{% url 'item_search' %}">
+    <form class="form-inline my-2 my-lg-0" method=POST action="{% url 'itemCatalog-item-search' %}">
       {% csrf_token %}
       <input class="form-control mr-sm-2" type="search" placeholder="Search" name="searched" aria-label="Search">
       <button class="btn btn-dark" type="submit">Search</button>
@@ -99,16 +84,13 @@
               Made By
             </h6>
             <p>
-              Dani Makhoul
-            </p>
-            <p>
-              Christopher Dagenais
-            </p>
-            <p>
-              Minh Duc Hoang
-            </p>
-            <p>
-              Michael Obadia
+              Dany Makhoul
+                <br>
+                Christopher Dagnais
+                <br>
+                Minh Duc Hoang
+                <br>
+                Micheal Obadia
             </p>
           </div>
           <!-- Grid column -->
@@ -116,16 +98,16 @@
           <hr class="w-100 clearfix d-md-none" />
 
           <!-- Grid column -->
-<!--          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">-->
-<!--            <h6 class="text-uppercase mb-4 font-weight-bold">Links</h6>-->
-<!--            <p>-->
-<!--              <a class="text-white">Contact Us Link</a>-->
-<!--            </p>-->
-<!--            <p>-->
-<!--              <a class="text-white">About Link</a>-->
-<!--            </p>-->
-<!--          </div>-->
-<!--          &lt;!&ndash; Grid column &ndash;&gt;-->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Links</h6>
+            <p>
+              <a class="text-white" href="{% url 'itemCatalog_contact' %}">Contact Us</a>
+            </p>
+            <p>
+              <a class="text-white">About Link</a>
+            </p>
+          </div>
+          <!-- Grid column -->
 
           <hr class="w-100 clearfix d-md-none" />
 

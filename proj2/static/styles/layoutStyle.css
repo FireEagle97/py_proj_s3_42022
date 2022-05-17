@@ -45,3 +45,21 @@ body{
 #filterbyDropdown, #orderbyDropdown{
     color:red;
 }
+#comment_author{
+    text-indent: 2em;
+    font-size: 15px;
+    font-weight: bold;
+}
+.flag-form{
+    margin-left: 0.9em;
+    padding: 0.4em;
+}
+.form-inline{
+    margin-left: auto !important;
+}
+#right-btn{
+    margin-right: 4em;
+}
+#btn-row{
+    margin-top:5px;
+}
