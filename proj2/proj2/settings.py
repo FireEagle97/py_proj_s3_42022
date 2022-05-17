@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'administration.apps.AdministrationConfig',
     'messaging.apps.MessagingConfig',
     'user_management.apps.UserManagementConfig',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

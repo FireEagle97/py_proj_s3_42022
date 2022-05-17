@@ -14,4 +14,8 @@ urlpatterns = [
     path('ordered_price_desc',views.OrderItemsByPriceDesc.as_view(),name='item_order_desc_price'),
     path('ordered_price_asc',views.OrderItemsByPriceAsc.as_view(),name='item_order_asc_price'),
 
+# ------ Rest API paths ----
+    path('api/item-list', views.api_get_all_item, name='api_item_list'),
+    path('api/review-list', views.api_get_all_review, name='api_review_list'),
+    path('api/item-new', views.api_create_item, name='api_item_new'),
 ]
