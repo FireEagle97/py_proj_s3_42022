@@ -183,14 +183,11 @@ class ListSearchedItems(LoginRequiredMixin, ListView):
             return render(req, self.template_name, {'searched': "No results found",
                                                     })
 
-<<<<<<< HEAD
-
 def contact(req):
     data = {'page_title': "Contact page",
             'greet': "Contact Info Page",
             }
     return render(req, 'itemCatalog/contact.html', context=data)
-=======
 # -------- Rest API ----------------
 
 from rest_framework.decorators import api_view
@@ -223,4 +220,4 @@ def api_get_all_review(request):
     obj_serializer = ReviewClassSerializer(reviews, many=True)
 
     return Response(obj_serializer.data)
->>>>>>> 1f830d533e51b991da59bc7087ec1d3512af43e6
+
