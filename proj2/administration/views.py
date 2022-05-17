@@ -53,10 +53,8 @@ class EditUserClassView(LoginRequiredMixin, UpdateView):
         this_member = Member.objects.get(user=member.user)
         member_data = {'user_pic': this_member.avatar.url}
         member_form = MemberForm(member_data)
-<<<<<<< HEAD
         return render(request, self.template_name,
                       {'edit_form': edit_form, 'member_form': member_form, 'member': member.user.username})
-=======
 
         if request.user.is_authenticated:
             group_super = Group.objects.get(name="Admin_super_grp")
@@ -68,7 +66,6 @@ class EditUserClassView(LoginRequiredMixin, UpdateView):
             else:
                 return HttpResponseRedirect(reverse_lazy('home'))
 
->>>>>>> 1f830d533e51b991da59bc7087ec1d3512af43e6
 
     def post(self, request, *args, **kwargs):
         member = get_object_or_404(Member, id=kwargs['pk'])
@@ -89,12 +86,8 @@ class EditUserClassView(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
 
 
-<<<<<<< HEAD
 
-class DeleteUserClassView(View):
-=======
 class DeleteUserClassView(LoginRequiredMixin, View):
->>>>>>> 1f830d533e51b991da59bc7087ec1d3512af43e6
     model = Member
     success_url = reverse_lazy('administration_user_list')
     success_message = "user was successfully deleted"
@@ -127,60 +120,20 @@ class DeleteUserClassView(LoginRequiredMixin, View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
-<<<<<<< HEAD
 
-class GroupUserClassView(View):
-=======
 class GroupUserClassView(LoginRequiredMixin, View):
->>>>>>> 1f830d533e51b991da59bc7087ec1d3512af43e6
     template_name = 'administration/member_group.html'
 
     def get(self, request, *args, **kwargs):
         member = get_object_or_404(Member, id=kwargs['pk'])
         choice_form = SelectGroupForm()
 
-<<<<<<< HEAD
         return render(request, self.template_name, {'choice_form': choice_form})
 
 
-class FlagUserClassView(View):
-=======
-        if request.user.is_authenticated:
-            group_super = Group.objects.get(name="Admin_super_grp")
-            group_user = Group.objects.get(name="Admin_user_grp")
-            user_to_test = request.user
-            if (group_super in user_to_test.groups.all() or group_user in user_to_test.groups.all()):
-                return render(request, self.template_name, {'choice_form': choice_form, 'member': member})
-            else:
-                return HttpResponseRedirect(reverse_lazy('home'))
-
-
-
-    def post(self, request, *args, **kwargs):
-        member = get_object_or_404(Member, id=kwargs['pk'])
-        group_form = SelectGroupForm(request.POST)
-        choice_form = SelectGroupForm()
-
-        group_list = request.POST.dict()
-        group_id = group_list.get('group')
-
-
-        if request.user.is_authenticated:
-            group_super = Group.objects.get(name="Admin_super_grp")
-            group_user = Group.objects.get(name="Admin_user_grp")
-            user_to_test = request.user
-
-            if group_user in user_to_test.groups.all() and group_id == '4':
-                return render(request, self.template_name, {'choice_form': choice_form, 'member': member})
-            else:
-                member.group = Group.objects.get(pk=group_id)
-                member.user.groups.set(group_id)
-                member.save()
-                return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
 
 class FlagUserClassView(LoginRequiredMixin, View):
->>>>>>> 1f830d533e51b991da59bc7087ec1d3512af43e6
     model = Member
     template_name = 'administration/home.html'
 
@@ -199,31 +152,7 @@ class FlagUserClassView(LoginRequiredMixin, View):
                 else:
                     member_flagged.is_flagged = False
 
-<<<<<<< HEAD
-
-# class FlagUserClassView(View):
-#     model = Member_Flag
-#     template_name = 'administration/home.html'
-#
-#     def get(self, request, *args, **kwargs):
-#         member_flagged = get_object_or_404(Member, id=kwargs['pk'])
-#         member_flag_count = Member_Flag.objects.filter(member=member_flagged).count()
-#
-#         if member_flag_count:
-#             member_flag = get_object_or_404(Member_Flag, member=member_flagged)
-#             if not member_flag.is_flagged:
-#                 member_flag.is_flagged = True
-#             else:
-#                 member_flag.is_flagged = False
-#         else:
-#             member_flag = Member_Flag(member=member_flagged, is_flagged=True)
-#         member_flag.save()
-#
-#         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
-=======
                 member_flagged.save()
->>>>>>> 1f830d533e51b991da59bc7087ec1d3512af43e6
-
                 return HttpResponseRedirect(reverse_lazy('administration_user_list'))
             else:
                 return HttpResponseRedirect(reverse_lazy('home'))
@@ -283,9 +212,6 @@ class CreateUserClassView(LoginRequiredMixin, View):
 
 # ---------- Rest API -----------
 
-<<<<<<< HEAD
-        return HttpResponseRedirect(reverse_lazy('administration_user_list'))
-=======
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -321,4 +247,3 @@ def api_get_all_user(request):
         if (group_super in user_to_test.groups.all() or group_user in user_to_test.groups.all()):
             return Response(obj_serializer.data)
     return HttpResponseRedirect(reverse_lazy('home'))
->>>>>>> 1f830d533e51b991da59bc7087ec1d3512af43e6
