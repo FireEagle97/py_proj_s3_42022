@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<section class="info">
-    <h4> LOGOUT PAGE </h4>
+<section class="info p-5">
+    <h1> You have logged out. </h1>
 
     <p>
-        Logged out <br>
-    </p>
-    <p>
-        <a href="{% url 'member_login' %}"> Log in again </a>
+        <a href="{% url 'member_login' %}"> Log in again</a>
     </p>
 
 </section>
