@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <section>
-    <div class="row  p-5 ">
-        <div class="col-sm-4">
+    <div class= "p-5 row w-100">
+        <div class="col-sm">
             <h1 class="mb-5"> Profile </h1>
             <img src="{{ user.member.avatar.url }}" class="img-thumbnail">
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm">
             <h1 class="mb-5"> Edit profile </h1>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -21,7 +21,7 @@
             </form>
         </div>
         {% if user.member.is_warned %}
-        <div class="col-sm-4">
+        <div class="col-sm">
             <h1 class="mb-5"> You have been warned! </h1>
             <p> You have violated our terms and conditions. Posting cringe can lead to a maximum of 5 years in prison without parole. Your browser history is being reviewed and recorded.</p>
         </div>
