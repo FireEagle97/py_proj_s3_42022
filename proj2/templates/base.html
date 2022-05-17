@@ -68,7 +68,7 @@
     </form>
     {% endif %}
     {% if user.is_authenticated %}
-    <section class="section" style="color: lightgrey"> Logged in as {{ user.username }} &nbsp;</section>
+    <section class="section" style="color: lightgrey"> Logged in as <b> {{ user.username }} </b> &nbsp;</section>
     <section class="section"> <a href="{% url 'member_logout' %}" class="btn btn-success mr-2">Logout</a> </section>
     <section class="section"> <a href="{% url 'member_edit' %}" class="btn btn-info">Profile</a> </section>
     {% else %}
