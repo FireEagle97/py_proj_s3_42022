@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -137,10 +138,20 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+#
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#----- azure storage
+DEFAULT_FILE_STORAGE= 'backend.custom_azure.AzureMediaStorage'
+# DEFAULT_STATIC_STORAGE= 'backend.custom_azure.AzureStaticStorage'
+
+STATIC_LOCATION = 'static'
+MEDIA_LOCATION = 'media'
+AZURE_ACCOUNT_NAME = 'djangoproject2'
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+# STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}{STATIC_LOCATION}/'
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}{MEDIA_LOCATION}/'

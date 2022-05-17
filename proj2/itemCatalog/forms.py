@@ -17,12 +17,11 @@ class ItemForm(ModelForm):
             'address': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
 
-
         }
 
 
 class ReviewForm(ModelForm):
     class Meta:
         model = Review
-        fields = ('rate','comment')
+        fields = ('rate', 'comment')
 
