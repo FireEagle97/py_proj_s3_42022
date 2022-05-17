@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-c_ll3!0i((12muu@(rq4z793czw!43+4vu)hqxjut%%tpa#deu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['dw-42022-prj-grp1-makhoul.herokuapp.com',
+                 '127.0.0.1',
+                 '127.0.0.1:8000']
 
 
 # Application definition
@@ -42,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages'
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -143,7 +145,7 @@ STATICFILES_DIRS = [
 # MEDIA_ROOT = BASE_DIR / 'media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-
+SECRET_KEY = 'drDJxEtrc2RS1ygEnUf+mbV8ImYtoml1U7ibVKgYmDEYVuYeRe9W95UMYiu1iWYFrkmwEhAd079g+AStMZ7WmQ=='
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #----- azure storage
 DEFAULT_FILE_STORAGE= 'backend.custom_azure.AzureMediaStorage'
