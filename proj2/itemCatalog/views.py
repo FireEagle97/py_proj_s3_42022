@@ -183,9 +183,44 @@ class ListSearchedItems(LoginRequiredMixin, ListView):
             return render(req, self.template_name, {'searched': "No results found",
                                                     })
 
+<<<<<<< HEAD
 
 def contact(req):
     data = {'page_title': "Contact page",
             'greet': "Contact Info Page",
             }
     return render(req, 'itemCatalog/contact.html', context=data)
+=======
+# -------- Rest API ----------------
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.decorators import login_required
+from .serializer import ReviewClassSerializer, ItemClassSerializer
+
+@api_view(['GET'])
+@login_required()
+def api_get_all_item(request):
+    items = Item.objects.all()
+    obj_serializer = ItemClassSerializer(items, many=True)
+
+    return Response(obj_serializer.data)
+
+@api_view(['POST'])
+@login_required()
+def api_create_item(request):
+    obj_serializer = ItemClassSerializer(data=request.data)
+    if obj_serializer.is_valid():
+        obj_serializer.save()
+        return Response(obj_serializer.data, status=status.HTTP_201_CREATED)
+    return Response(obj_serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@login_required()
+def api_get_all_review(request):
+    reviews = Review.objects.all()
+    obj_serializer = ReviewClassSerializer(reviews, many=True)
+
+    return Response(obj_serializer.data)
+>>>>>>> 1f830d533e51b991da59bc7087ec1d3512af43e6

@@ -17,4 +17,8 @@ urlpatterns = [
     path('like/<int:pk>', views.LikeItemView.as_view(), name='itemCatalog-likeItem'),
     path('flag/<int:pk>', views.FlagItemView.as_view(), name='itemCatalog-flagItem'),
 
+# ------ Rest API paths ----
+    path('api/item-list', views.api_get_all_item, name='api_item_list'),
+    path('api/review-list', views.api_get_all_review, name='api_review_list'),
+    path('api/item-new', views.api_create_item, name='api_item_new'),
 ]

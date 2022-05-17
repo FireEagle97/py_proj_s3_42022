@@ -4,12 +4,12 @@
     <h4> Sign Up </h4>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <fieldset>
-            {{ reg_form }}
-        </fieldset>
-        <fieldset>
-            {{ member_form }}
-        </fieldset>
+        <table>
+            {{ reg_form.as_table }}
+        </table>
+        <table>
+            {{ member_form.as_table }}
+        </table>
         <input type="submit" value=" Register "/>
     </form>
 

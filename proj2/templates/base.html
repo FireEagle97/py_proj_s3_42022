@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load auth_extras %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -29,25 +30,21 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-<!--    <ul class="navbar-nav mr-auto">-->
-<!--      <li class="nav-item active">-->
-<!--        <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>-->
-<!--      </li>-->
-<!--      <li class="nav-item">-->
-<!--        <a class="nav-link" href="#">Link</a>-->
-<!--      </li>-->
-<!--      <li class="nav-item dropdown">-->
-<!--        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--          Dropdown-->
-<!--        </a>-->
-<!--        <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--          <a class="dropdown-item" href="#">Action</a>-->
-<!--          <a class="dropdown-item" href="#">Another action</a>-->
-<!--          <div class="dropdown-divider"></div>-->
-<!--          <a class="dropdown-item" href="#">Something else here</a>-->
-<!--        </div>-->
-<!--      </li>-->
-<!--    </ul>-->
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item mr-2">
+        <a class=" btn btn-secondary" href="{% url 'home' %}">Shop</a>
+      </li>
+      <li class="nav-item mr-2">
+        <a class=" btn btn-secondary" href="{% url 'home' %}">Messages</a>
+      </li>
+        {% if request.user|has_group:"Admin_super_grp" or request.user|has_group:"Admin_user_grp" %}
+      <li class="nav-item mr-2">
+        <a class=" btn btn-secondary" href="{% url 'administration_user_list' %}">Users List</a>
+      </li>
+        {% endif %}
+    </ul>
+
     {% if user.is_authenticated %}
     <form class="form-inline my-2 my-lg-0" method=POST action="{% url 'itemCatalog-item-search' %}">
       {% csrf_token %}
@@ -56,12 +53,12 @@
     </form>
     {% endif %}
     {% if user.is_authenticated %}
-    <section class="section"> Logged in as {{ user.username }} </section>
-    <section class="section"> <a href="{% url 'member_logout' %}">Logout</a> </section>
-    <section class="section"> <a href="{% url 'member_edit' %}">Edit Profile</a> </section>
+    <section class="section" style="color: lightgrey"> Logged in as {{ user.username }} &nbsp;</section>
+    <section class="section"> <a href="{% url 'member_logout' %}" class="btn btn-success mr-2">Logout</a> </section>
+    <section class="section"> <a href="{% url 'member_edit' %}" class="btn btn-info">Profile</a> </section>
     {% else %}
-    <section class="section"> <a href="{% url 'member_login' %}"> Login</a> </section>
-    <section class="section"> <a href="{% url 'member_register' %}">Register</a> </section>
+    <section class="section"> <a href="{% url 'member_login' %}" class="btn btn-success mr-2"> Login</a> </section>
+    <section class="section"> <a href="{% url 'member_register' %}" class="btn btn-info">Register</a> </section>
     {% endif %}
   </div>
 </nav>
@@ -94,7 +91,6 @@
                 Minh Duc Hoang
                 <br>
                 Micheal Obadia
-
             </p>
           </div>
           <!-- Grid column -->
