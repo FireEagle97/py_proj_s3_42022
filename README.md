@@ -1,19 +1,17 @@
-# project2
-
-## Name
-Kijimi  -  Item sharing website. 
+# PROJECT2
+## Kijimi - Item sharing website. 
 
 ## Description
-Item sharing website with built-in administrative tools, developed with Django framework. 
+Item sharing website with content and profile editing. Built-in administrative tools. Developed with Django framework. 
 
 ## Visuals
 
-Members visual experience
+Members visual experience.
 
 ![page](proj2/media/forreadme1.jpg?raw=true "Page")
 ![page](proj2/media/forreadme2.jpg?raw=true "Page")
 
-## Usage
+## Link
 
 
 
@@ -22,4 +20,4 @@ Dany, Chris, Minh, Micheal
 
 
 ## Project status
-All requirements have been met, excepted for the messaging app.
+All requirements except messaging app have been met.
