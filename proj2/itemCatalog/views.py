@@ -1,6 +1,9 @@
 # Create your views here.
+from abc import ABC
+
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -15,20 +18,38 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
 
-# class MyListItemsView(View):
-#     template_name = 'itemCatalog/home.html'
-#     paginate_by = 5
-#
-#     def get(self, req, *args, **kwargs):
-#         res = Item.objects.all()
-#         data = {'page_title': "List Items page",
-#                 'object_list': res,
-#                 }
-#         return render(req, self.template_name, context=data)
-
-
 class MyItemDetail(DetailView):
     model = Item
+
+
+class LikeItemView(View):
+    model = Item
+
+    def get(self, request, *args, **kwargs):
+        item_like = get_object_or_404(Item, id=kwargs['pk'])
+        if not item_like.is_liked:
+            item_like.is_liked = True
+
+        else:
+            item_like.is_liked = False
+
+        item_like.save()
+        return HttpResponseRedirect(reverse_lazy('home'))
+
+
+class FlagItemView(View):
+    model = Item
+
+    def get(self, request, *args, **kwargs):
+        item_flag = get_object_or_404(Item, id=kwargs['pk'])
+        if not item_flag.is_flagged:
+            item_flag.is_flagged = True
+
+        else:
+            item_flag.is_flagged = False
+
+        item_flag.save()
+        return HttpResponseRedirect(reverse_lazy('home'))
 
 
 class ItemReviewDetail(FormMixin, DetailView):
@@ -40,25 +61,15 @@ class ItemReviewDetail(FormMixin, DetailView):
         the_item = get_object_or_404(Item, id=kwargs.get('pk'))
         review_form = ReviewForm
         item_reviews = Review.objects.filter(item_id=the_item.id)
-
         context = {
             'item': the_item,
             'review_form': review_form,
             'item_reviews': item_reviews,
+            'item_flag_text': "flag",
         }
         return render(request, self.template_name, context)
 
-    def get_reviews(self, req, *args, **kwargs):
-        the_item = get_object_or_404(Item, id=kwargs.get('pk'))
-        res = Review.objects.filter(item=the_item)
-        data = {'comments_list': "Comments: ",
-                'object_list': res,
-                }
-        return render(req, self.template_name, context=data)
-
     def post(self, request, **kwargs):
-        # if not request.user.is_authenticated:
-        #     return HttpResponseForbidden()
         the_item = get_object_or_404(Item, id=kwargs.get('pk'))
         review_form = ReviewForm(request.POST)
         context = {
@@ -81,6 +92,7 @@ class ItemReviewDetail(FormMixin, DetailView):
 class MyListItems(ListView):
     model = Item
     template_name = 'itemCatalog/item_list.html'
+    ordering = ['id']
     paginate_by = 8
 
 
@@ -110,33 +122,6 @@ class OrderItemsByPriceAsc(ListView):
     template_name = 'itemCatalog/item_list.html'
     paginate_by = 8
     ordering = ['-price']
-
-    # def get(self, req, *args, **kwargs):
-    #     res = Item.objects.all()
-    #     data = {'page_title': "List Items page",
-    #             'object_list': res,
-    #             }
-    #     return render(req, self.template_name, context=data)
-
-    # def paginator(self, req):
-    #     item_list = Item.objects.all()
-    #     p = Paginator(Item.objects.all(), 5)
-    #     page = req.GET.get('page')
-    #     items = p.get_page(page)
-    #     return render(req, self.template_name,
-    #                   {
-    #                       'item_list': item_list,
-    #                       'items': items
-    #                   })
-
-
-# class MyItemDetailView(View):
-#     model = Item
-#     template_name = 'itemCatalog/item_detail.html'
-#
-#     def get(self, req, **kwargs):
-#         my_item = get_object_or_404(Item, id=kwargs['id'])
-#         return render(req, self.template_name, {'i': my_item})
 
 
 class CreateItemClassView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -197,3 +182,10 @@ class ListSearchedItems(LoginRequiredMixin, ListView):
         else:
             return render(req, self.template_name, {'searched': "No results found",
                                                     })
+
+
+def contact(req):
+    data = {'page_title': "Contact page",
+            'greet': "Contact Info Page",
+            }
+    return render(req, 'itemCatalog/contact.html', context=data)

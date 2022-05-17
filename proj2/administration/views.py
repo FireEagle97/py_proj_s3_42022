@@ -46,10 +46,11 @@ class EditUserClassView(UpdateView):
                      'first_name': member.user.first_name}
 
         edit_form = UserEditForm(user_data)
-        this_member = Member.objects.get(user = member.user)
+        this_member = Member.objects.get(user=member.user)
         member_data = {'user_pic': this_member.avatar.url}
         member_form = MemberForm(member_data)
-        return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form, 'member': member.user.username})
+        return render(request, self.template_name,
+                      {'edit_form': edit_form, 'member_form': member_form, 'member': member.user.username})
 
     def post(self, request, *args, **kwargs):
         member = get_object_or_404(Member, id=kwargs['pk'])
@@ -64,6 +65,7 @@ class EditUserClassView(UpdateView):
         else:
             messages.error(request, f"Error occured")
             return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
+
 
 class DeleteUserClassView(View):
     model = Member
@@ -89,6 +91,7 @@ class DeleteUserClassView(View):
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
 
+
 class GroupUserClassView(View):
     template_name = 'administration/member_group.html'
 
@@ -96,8 +99,8 @@ class GroupUserClassView(View):
         member = get_object_or_404(Member, id=kwargs['pk'])
         choice_form = SelectGroupForm()
 
-
         return render(request, self.template_name, {'choice_form': choice_form})
+
 
 class FlagUserClassView(View):
     model = Member
@@ -114,6 +117,7 @@ class FlagUserClassView(View):
         member_flagged.save()
 
         return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+
 
 # class FlagUserClassView(View):
 #     model = Member_Flag
