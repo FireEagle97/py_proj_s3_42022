@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-sm-4">
             <h1> Profile </h1>
-            <img src="{{ user.avatar.url }}">
+            <img src="{{ user.member.avatar.url }}" class="img-thumbnail">
         </div>
         <div class="col-sm-4">
             <h4> Edit profile </h4>
@@ -19,6 +19,15 @@
                 <input type="submit" value=" Edit "/>
             </form>
         </div>
+        {% if user.member.is_warned %}
+        <div class="col-sm-4">
+            <h1> You have been warned! </h1>
+        </div>
+        {% else %}
+        <div class="col-sm-4">
+            <h4> You have not been warned, yet! Do not violate our terms and conditions. Posting cringe can lead to a maximum of 5 years in prison without parole.</h4>
+        </div>
+        {% endif %}
     </div>
 </section>
 {% endblock content %}

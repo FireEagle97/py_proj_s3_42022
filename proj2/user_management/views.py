@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User, Group
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from user_management.forms import UserRegistrationForm, MemberForm, UserEditForm
@@ -44,42 +46,80 @@ class RegisterView(CreateView):
         return render(request, self.template_name, {'reg_form': reg_form})
 
 
-class EditView(UpdateView):
+class EditView(LoginRequiredMixin, UpdateView):
     form_class = UserEditForm
-    success_url = reverse_lazy('user_management_home')  # change to home
-    template_name = 'user_management/edit.html'
+    success_url = reverse_lazy('member_edit')
+    template_name = "user_management/edit.html"
 
     def get(self, request, *args, **kwargs):
         user_data = {'email': request.user.email,
                      'last_name': request.user.last_name,
                      'first_name': request.user.first_name}
+
         edit_form = UserEditForm(user_data)
-        this_member = Member.objects.get(user=request.user)
-        member_data = {'avatar': this_member.avatar.url}
+        member = Member.objects.get(user=request.user)
+        member_data = {'avatar': member.avatar.url}
         member_form = MemberForm(member_data)
+
         return render(request, self.template_name,
-                      {'edit_form': edit_form, 'member_form': member_form})
+                          {'edit_form': edit_form, 'member_form': member_form})
 
     def post(self, request, *args, **kwargs):
         edit_form = UserEditForm(request.POST)
         member_form = MemberForm(request.POST, request.FILES)
         if edit_form.is_valid():
-            email = edit_form.cleaned_data['email']
-            last_name = edit_form.cleaned_data['last_name']
-            first_name = edit_form.cleaned_data['first_name']
-            request.user.email = email
-            request.user.last_name = last_name
-            request.user.first_name = first_name
+            request.user.email = edit_form.cleaned_data['email']
+            request.user.last_name = edit_form.cleaned_data.get('last_name')
+            request.user.first_name = edit_form.cleaned_data.get('first_name')
             request.user.save()
-            edit_form.save()
             if member_form.is_valid():
                 avatar = member_form.cleaned_data.get('avatar')
-                this_member = Member.objects.get(user=request.user)
-                this_member.avatar = avatar
-                this_member.save()
-                member_form.save()
-                messages.success(request, "Profile updated")
-                return redirect('member_login')
+                member = Member.objects.get(user=request.user)
+                member.avatar = avatar
+                member.save()
+                return HttpResponseRedirect(reverse_lazy('member_edit'))
             else:
-                messages.error(request, "Error occurred")
+                messages.error(request, f"Error occurred (may be file upload problem)")
+        else:
+            messages.error(request, f"Error occurred")
         return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
+
+# class EditView(UpdateView):
+#     form_class = UserEditForm
+#     success_url = reverse_lazy('user_management_home')  # change to home
+#     template_name = 'user_management/edit.html'
+#
+#     def get(self, request, *args, **kwargs):
+#         user_data = {'email': request.user.email,
+#                      'last_name': request.user.last_name,
+#                      'first_name': request.user.first_name}
+#         edit_form = UserEditForm(user_data)
+#         this_member = Member.objects.get(user=request.user)
+#         member_data = {'avatar': this_member.avatar.url}
+#         member_form = MemberForm(member_data)
+#         return render(request, self.template_name,
+#                       {'edit_form': edit_form, 'member_form': member_form})
+#
+#     def post(self, request, *args, **kwargs):
+#         edit_form = UserEditForm(request.POST)
+#         member_form = MemberForm(request.POST, request.FILES)
+#         if edit_form.is_valid():
+#             email = edit_form.cleaned_data['email']
+#             last_name = edit_form.cleaned_data['last_name']
+#             first_name = edit_form.cleaned_data['first_name']
+#             request.user.email = email
+#             request.user.last_name = last_name
+#             request.user.first_name = first_name
+#             request.user.save()
+#             edit_form.save()
+#             if member_form.is_valid():
+#                 avatar = member_form.cleaned_data.get('avatar')
+#                 this_member = Member.objects.get(user=request.user)
+#                 this_member.avatar = avatar
+#                 this_member.save()
+#                 member_form.save()
+#                 messages.success(request, "Profile updated")
+#                 return redirect('member_login')
+#             else:
+#                 messages.error(request, "Error occurred")
+#         return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
