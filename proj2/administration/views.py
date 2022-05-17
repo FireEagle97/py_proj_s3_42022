@@ -78,11 +78,16 @@ class EditUserClassView(LoginRequiredMixin, UpdateView):
             member.user.email = edit_form.cleaned_data['email']
             member.user.last_name = edit_form.cleaned_data.get('last_name')
             member.user.first_name = edit_form.cleaned_data.get('first_name')
-            member.user.save()
-            return HttpResponseRedirect(reverse_lazy('administration_user_list'))
+            if member_form.is_valid():
+                member.avatar = member_form.cleaned_data.get('avatar')
+                member.user.save()
+                member.save()
+                return HttpResponseRedirect(reverse_lazy('administration_user_list'))
         else:
             messages.error(request, f"Error occured")
             return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
+        return render(request, self.template_name, {'edit_form': edit_form, 'member_form': member_form})
+
 
 <<<<<<< HEAD
 
